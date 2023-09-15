@@ -150,8 +150,8 @@ export default function Login() {
                 paddingTop: "0.6rem",
                 paddingBottom: "0.6rem",
                 marginInlineStart: "auto",
-                color: theme=>theme.palette.grey2.main,
-                borderColor: theme=>theme.palette.grey2.main,
+                color: 'rgba(89, 89, 89, 1)',
+                borderColor: 'rgba(89, 89, 89, 1)',
               }}
             >
               {t("guest")}
