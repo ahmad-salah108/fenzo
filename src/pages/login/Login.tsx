@@ -143,7 +143,6 @@ export default function Login() {
           </Link>
           <Stack direction={"row"} sx={{ gap: "1rem", marginTop: "1rem" }}>
             <Button
-              color="grey2"
               variant="outlined"
               sx={{
                 borderRadius: "100vh",
@@ -151,6 +150,8 @@ export default function Login() {
                 paddingTop: "0.6rem",
                 paddingBottom: "0.6rem",
                 marginInlineStart: "auto",
+                color: theme=>theme.palette.grey2.main,
+                borderColor: theme=>theme.palette.grey2.main,
               }}
             >
               {t("guest")}

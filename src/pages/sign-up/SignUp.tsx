@@ -98,7 +98,6 @@ export default function SignUp() {
           <SignUpFields/>
           <Stack direction={"row"} sx={{ gap: "1rem", marginTop: "2rem" }}>
             <Button
-              color="grey2"
               variant="outlined"
               sx={{
                 borderRadius: "100vh",
@@ -106,6 +105,8 @@ export default function SignUp() {
                 paddingTop: "0.6rem",
                 paddingBottom: "0.6rem",
                 marginInlineStart: "auto",
+                color: theme=>theme.palette.grey2.main,
+                borderColor: theme=>theme.palette.grey2.main,
               }}
             >
               {t("guest")}
