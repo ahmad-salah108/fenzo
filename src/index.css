@@ -257,6 +257,9 @@ input::-ms-clear {
   }
 }
 
+.active-drawer-link{
+  color: rgba(219, 183, 155, 1);
+}
 .active-nav-link{
   color: rgba(219, 183, 155, 1);
   position: relative;
