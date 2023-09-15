@@ -13,16 +13,7 @@ export const theme = createTheme(
       },
       secondary: {
         main: "rgba(241, 243, 241, 1)"
-      },
-      black: {
-        main: '#000'
-      },
-      white: {
-        main: '#fff'
-      },
-      grey2: {
-        main: 'rgba(89, 89, 89, 1)'
-      },
+      }
     },
   },
   i18next.language === "ar" ? arSA : enUS
