@@ -15,5 +15,13 @@
   "designs": "Designs",
   "my_orders": "My Orders",
   "contact_us": "Contact us",
-  "about_us": "About us"
+  "about_us": "About us",
+  "search": "Search",
+  "design_your_event": "Design Your Event",
+  "describe_your": "Describe your",
+  "event": "Event",
+  "cancel": "Cancel",
+  "event_type": "Event Type",
+  "date_of_event": "Date of event",
+  "place": "Place"
 }

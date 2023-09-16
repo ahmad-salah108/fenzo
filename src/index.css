@@ -123,15 +123,15 @@ input::-ms-clear {
 .slide-word{
   color: rgba(219, 183, 155, 1);
   position: absolute;
-  animation: slide 7s infinite ease-in-out;
+  animation: slide-word 7s infinite ease-in-out;
 }
 .slide-word-sm{
   color: rgba(219, 183, 155, 1);
   position: absolute;
-  animation: slide-sm 7s infinite ease-in-out;
+  animation: slide-word-sm 7s infinite ease-in-out;
 }
 
-@keyframes slide {
+@keyframes slide-word {
   0%{
     top: 0
   }
@@ -194,7 +194,7 @@ input::-ms-clear {
   }
 }
 
-@keyframes slide-sm {
+@keyframes slide-word-sm {
   0%{
     top: 0
   }
@@ -273,4 +273,14 @@ input::-ms-clear {
   width: 1rem;
   background-color: rgba(219, 183, 155, 1);
   border-radius: 100vh;
+}
+.slick-dots{
+  bottom: 1rem !important;
+}
+.slick-dots li button:before{
+  font-size: 1rem !important;
+  color: #fff !important;
+}
+.slick-dots li.slick-active button:before{
+  color: #fff !important
 }

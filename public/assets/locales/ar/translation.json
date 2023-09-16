@@ -20,5 +20,13 @@
   "email": "البريد الالكتروني",
   "age": "العمر",
   "country": "الدولة",
-  "confirm_password": "تأكيد كلمة المرور"
+  "confirm_password": "تأكيد كلمة المرور",
+  "search": "بحث",
+  "design_your_event": "صمم حدثك المميز",
+  "describe_your": "اوصف",
+  "event": "الحدث",
+  "cancel": "إلغاء",
+  "event_type": "نوع الحدث",
+  "date_of_event": "تاريخ الحدث",
+  "place": "المكان"
 }
