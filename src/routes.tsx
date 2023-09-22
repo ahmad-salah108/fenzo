@@ -5,36 +5,44 @@ import SignUp from "./pages/sign-up/SignUp";
 import Layout from "./layout/Layout";
 import Designs from "./pages/designs/Designs";
 import Home from "./pages/home/Home";
+import Main from "./Main";
+import PrivateRoute from "./components/PrivateRoute";
+import AuthRoute from "./components/AuthRoute";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Layout/>,
+    element: <Main/>,
     children: [
       {
-        index: true,
-        element: <Home/>
+        path: "/",
+        element: <Layout/>,
+        children: [
+          {
+            index: true,
+            element: <Home/>
+          },
+          {
+            path: 'designs',
+            element: <Designs/>
+          },
+          {
+            path: '*',
+            element: <Page404/>
+          }
+        ]
       },
       {
-        path: 'designs',
-        element: <Designs/>
+        path: '/login',
+        element: <AuthRoute><Login/></AuthRoute>
       },
       {
-        path: '*',
-        element: <Page404/>
-      }
+        path: '/sign-up',
+        element: <AuthRoute><SignUp/></AuthRoute>
+      },
+      {
+        path: "*",
+        element: <Page404/>,
+      },
     ]
-  },
-  {
-    path: '/login',
-    element: <Login/>
-  },
-  {
-    path: '/sign-up',
-    element: <SignUp/>
-  },
-  {
-    path: "*",
-    element: <Page404/>,
-  },
+  }
 ]);

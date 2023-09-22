@@ -274,6 +274,10 @@ input::-ms-clear {
   background-color: rgba(219, 183, 155, 1);
   border-radius: 100vh;
 }
+html[dir="rtl"] .active-nav-link::after{
+  left: auto;
+  right: 0;
+}
 .slick-dots{
   bottom: 1rem !important;
 }

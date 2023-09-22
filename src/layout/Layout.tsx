@@ -19,6 +19,9 @@ import Button from "@mui/material/Button";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import { useUser } from "../context/UserContext";
+import { Avatar, useMediaQuery, useTheme } from "@mui/material";
+import UserAvatar from "./components/UserAvatar";
 
 const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
@@ -28,6 +31,9 @@ function Layout(props: { window: any }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { t } = useTranslation();
   const pathname = useLocation().pathname;
+  const { user } = useUser();
+  const theme = useTheme();
+  const md = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -56,7 +62,7 @@ function Layout(props: { window: any }) {
                 isActive ? "active-drawer-link" : ""
               }
             >
-              {t('home')}
+              {t("home")}
             </NavLink>
           </ListItemButton>
           <ListItemButton>
@@ -72,7 +78,7 @@ function Layout(props: { window: any }) {
                 isActive ? "active-drawer-link" : ""
               }
             >
-              {t('designs')}
+              {t("designs")}
             </NavLink>
           </ListItemButton>
           <ListItemButton>
@@ -88,7 +94,7 @@ function Layout(props: { window: any }) {
                 isActive ? "active-drawer-link" : ""
               }
             >
-              {t('my_orders')}
+              {t("my_orders")}
             </NavLink>
           </ListItemButton>
           <ListItemButton>
@@ -104,7 +110,7 @@ function Layout(props: { window: any }) {
                 isActive ? "active-drawer-link" : ""
               }
             >
-              {t('contact_us')}
+              {t("contact_us")}
             </NavLink>
           </ListItemButton>
           <ListItemButton>
@@ -120,41 +126,45 @@ function Layout(props: { window: any }) {
                 isActive ? "active-drawer-link" : ""
               }
             >
-              {t('about_us')}
+              {t("about_us")}
             </NavLink>
           </ListItemButton>
-          <ListItemButton>
-            <NavLink
-              to="/login"
-              style={{
-                textAlign: "center",
-                width: "100%",
-                height: "100%",
-                padding: "7px 16px",
-              }}
-              className={({ isActive }) =>
-                isActive ? "active-drawer-link" : ""
-              }
-            >
-              {t('login')}
-            </NavLink>
-          </ListItemButton>
-          <ListItemButton>
-            <NavLink
-              to="/sign-up"
-              style={{
-                textAlign: "center",
-                width: "100%",
-                height: "100%",
-                padding: "7px 16px",
-              }}
-              className={({ isActive }) =>
-                isActive ? "active-drawer-link" : ""
-              }
-            >
-              {t('sign_up')}
-            </NavLink>
-          </ListItemButton>
+          {!user?.token && (
+            <>
+              <ListItemButton>
+                <NavLink
+                  to="/login"
+                  style={{
+                    textAlign: "center",
+                    width: "100%",
+                    height: "100%",
+                    padding: "7px 16px",
+                  }}
+                  className={({ isActive }) =>
+                    isActive ? "active-drawer-link" : ""
+                  }
+                >
+                  {t("login")}
+                </NavLink>
+              </ListItemButton>
+              <ListItemButton>
+                <NavLink
+                  to="/sign-up"
+                  style={{
+                    textAlign: "center",
+                    width: "100%",
+                    height: "100%",
+                    padding: "7px 16px",
+                  }}
+                  className={({ isActive }) =>
+                    isActive ? "active-drawer-link" : ""
+                  }
+                >
+                  {t("sign_up")}
+                </NavLink>
+              </ListItemButton>
+            </>
+          )}
         </Stack>
       </List>
     </Box>
@@ -185,6 +195,34 @@ function Layout(props: { window: any }) {
             >
               <MenuIcon />
             </IconButton>
+            {!user?.token && (
+              <Box sx={{ marginInlineStart: "auto", display: { md: "none" } }}>
+                <Link to={"/"}>
+                  <img
+                    src="/assets/icons/logo.svg"
+                    style={{ width: "10.2rem" }}
+                  />
+                </Link>
+              </Box>
+            )}
+            {user?.token && md && (
+              <Stack
+                direction={"row"}
+                sx={{
+                  gap: "0.2rem",
+                  marginInlineStart: "auto",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton sx={{ width: "35px", height: "35px" }}>
+                  <img src="/assets/icons/cart.svg" />
+                </IconButton>
+                <IconButton sx={{ width: "35px", height: "35px" }}>
+                  <img src="/assets/icons/notification.svg" />
+                </IconButton>
+                <UserAvatar />
+              </Stack>
+            )}
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "block" } }}>
               <Link to={"/"}>
                 <img
@@ -238,17 +276,38 @@ function Layout(props: { window: any }) {
                 {t("about_us")}
               </NavLink>
             </Stack>
-            <Stack
-              direction={"row"}
-              sx={{
-                display: { xs: "none", md: "flex" },
-                gap: "2rem",
-                marginInlineStart: "7rem",
-              }}
-            >
-              <NavLink to={"/login"}>{t("login")}</NavLink>
-              <NavLink to={"/sign-up"}>{t("sign_up")}</NavLink>
-            </Stack>
+            {!user?.token && (
+              <Stack
+                direction={"row"}
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                  gap: "2rem",
+                  marginInlineStart: "7rem",
+                }}
+              >
+                <NavLink to={"/login"}>{t("login")}</NavLink>
+                <NavLink to={"/sign-up"}>{t("sign_up")}</NavLink>
+              </Stack>
+            )}
+            {user?.token && (
+              <Stack
+                direction={"row"}
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                  gap: "0.2rem",
+                  marginInlineStart: "7rem",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton sx={{ width: "35px", height: "35px" }}>
+                  <img src="/assets/icons/cart.svg" />
+                </IconButton>
+                <IconButton sx={{ width: "35px", height: "35px" }}>
+                  <img src="/assets/icons/notification.svg" />
+                </IconButton>
+                <UserAvatar />
+              </Stack>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
@@ -272,10 +331,10 @@ function Layout(props: { window: any }) {
           {drawer}
         </Drawer>
       </nav>
-      <Box component="main" sx={{ margin: 'auto' }}>
+      <Box component="main" sx={{ margin: "auto" }}>
         <Toolbar />
         <Box>
-          <Outlet/>
+          <Outlet />
         </Box>
       </Box>
     </Box>

@@ -71,6 +71,7 @@ export default function Home() {
                     objectPosition: "center",
                     width: "30rem",
                     height: "calc(100vh - 4.6rem)",
+                    backgroundRepeat: 'no-repeat'
                   }}
                 />
               </h1>
@@ -85,6 +86,7 @@ export default function Home() {
                     objectPosition: "center",
                     width: "30rem",
                     height: "calc(100vh - 4.6rem)",
+                    backgroundRepeat: 'no-repeat'
                   }}
                 />
               </h1>

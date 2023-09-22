@@ -28,5 +28,19 @@
   "cancel": "إلغاء",
   "event_type": "نوع الحدث",
   "date_of_event": "تاريخ الحدث",
-  "place": "المكان"
+  "place": "المكان",
+  "full_name_required": "حقل الاسم كامل مطلوب",
+  "phone_number_required": "حقل رقم الهاتف مطلوب",
+  "email_required": "حقل البريد الالكتروني مطلوب",
+  "age_required": "حقل العمر مطلوب",
+  "country_required": "حقل الدولة مطلوب",
+  "password_required": "حقل كلمة المرور مطلوب",
+  "confirm_password_required": "حقل تأكيد كلمة المرور مطلوب",
+  "password_mismatch": "كلمة المرور غير متطابقة",
+  "smth_went_wrong": "حدث خطأ ما !",
+  "resgistered_successfully": "تم التسجيل بنجاح !",
+  "logout": "تسجيل خروج",
+  "yes": "نعم",
+  "no": "لا",
+  "wanna_logout": "هل تريد تسجيل الخروج؟"
 }
