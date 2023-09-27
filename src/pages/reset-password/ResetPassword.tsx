@@ -45,7 +45,11 @@ export default function ResetPassord() {
 
     axios.post(`${process.env.REACT_APP_API_URL}/auth/verification/send-verification-code`, data)
     .then(res => {
-      navigate(`/identity-confirmation?email=${data?.email}&token=${res?.data?.data?.token}`)
+      toast.success(t("code_sent_to_email"), {
+        position: "bottom-left",
+        rtl: i18next.language === "ar",
+      });
+      navigate(`/identity-confirmation?email=${data?.email}`)
     }).catch(err => {
       toast.error(err?.response?.data?.message ?? t('smth_went_wrong'), {
         position: "bottom-left",

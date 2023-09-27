@@ -47,17 +47,12 @@ export default function IdentityConfirmation() {
     setLoading(true);
 
     axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/auth/verification/verification-code`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${searchParams.get("token")}`,
-          },
-        }
-      )
+      .post(`${process.env.REACT_APP_API_URL}/auth/verification/verification-code`, {
+        email: searchParams.get('email'),
+        code: data?.code
+      })
       .then((res) => {
-        navigate(`/set-new-password?token=${searchParams.get("token")}`);
+        navigate(`/set-new-password?token=${res?.data?.data?.token}`);
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
