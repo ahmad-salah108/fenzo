@@ -1,10 +1,10 @@
 import {
-  Stack, Typography, Divider
+  Stack, Typography, Divider, Box
 } from "@mui/material";
 
 export default function Footer() {
   return (
-    <>
+    <Box>
       <Divider
         sx={{
           marginTop: "2.5rem",
@@ -29,6 +29,6 @@ export default function Footer() {
           <Typography fontSize={"0.8rem"}>Terms and Conditions</Typography>
         </Stack>
       </Stack>
-    </>
+    </Box>
   );
 }

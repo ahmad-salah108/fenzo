@@ -8,6 +8,9 @@ import Home from "./pages/home/Home";
 import Main from "./Main";
 import PrivateRoute from "./components/PrivateRoute";
 import AuthRoute from "./components/AuthRoute";
+import ResetPassord from "./pages/reset-password/ResetPassword";
+import IdentityConfirmation from "./pages/identity-confirmation/IdentityConfirmation";
+import SetNewPassword from "./pages/set-new-password/SetNewPassword";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +41,18 @@ export const router = createBrowserRouter([
       {
         path: '/sign-up',
         element: <AuthRoute><SignUp/></AuthRoute>
+      },
+      {
+        path: '/reset-password',
+        element: <AuthRoute><ResetPassord/></AuthRoute>
+      },
+      {
+        path: '/identity-confirmation',
+        element: <AuthRoute><IdentityConfirmation/></AuthRoute>
+      },
+      {
+        path: '/set-new-password',
+        element: <AuthRoute><SetNewPassword/></AuthRoute>
       },
       {
         path: "*",

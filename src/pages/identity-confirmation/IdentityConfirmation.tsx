@@ -15,14 +15,18 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import i18next from "i18next";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import Footer from "../../components/Footer";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { useUser } from "../../context/UserContext";
+import ButtonLink from "../../components/ButtonLink";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { LoadingButton } from "@mui/lab";
 
-export default function Login() {
+export default function IdentityConfirmation() {
   const theme = useTheme();
   const xsMd = useMediaQuery(theme.breakpoints.between("xs", "md"));
   const md = useMediaQuery(theme.breakpoints.up("md"));
@@ -35,9 +39,57 @@ export default function Login() {
   } = useForm();
   const { handleLogin } = useUser();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [loadingResend, setLoadingResend] = useState(false);
 
   const onSubmit = (data: FieldValues) => {
-    handleLogin(data, setLoading);
+    setLoading(true);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/auth/verification/verification-code`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${searchParams.get("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        navigate(`/set-new-password?token=${searchParams.get("token")}`);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        setLoading(false);
+      });
+  };
+
+  const handleResendCode = () => {
+    setLoadingResend(true);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/auth/verification/send-verification-code`,
+        { email: searchParams.get("email") }
+      )
+      .then((res) => {
+        toast.success(t("code_resent"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        setLoadingResend(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        setLoadingResend(false);
+      });
   };
 
   return (
@@ -78,33 +130,20 @@ export default function Login() {
                 textTransform: "uppercase",
               }}
             >
-              {i18next.language === "ar" ? (
-                "أفضل مكان"
-              ) : (
-                <>
-                  THE BEST <br /> PLACE FOR
-                </>
-              )}
-            </Typography>
-            <Typography
-              variant="h1"
-              className="slide-word-wrapper"
-              sx={{
-                fontSize: { xs: "2rem", md: "3rem" },
-                fontWeight: "800",
-                width: { xs: "23rem", md: "36rem" },
-                lineHeight: { xs: "3rem", md: "4rem" },
-                textTransform: "uppercase",
-              }}
-            >
-              {t("your")}&nbsp;
-              <span
-                className={md ? "slide-word" : "slide-word-sm"}
-                style={{ textTransform: "uppercase" }}
+              {t("identity")}{" "}
+              <Typography
+                color={"primary"}
+                component={"span"}
+                variant="h1"
+                sx={{
+                  fontSize: { xs: "2rem", md: "3rem" },
+                  fontWeight: "800",
+                  lineHeight: { xs: "3rem", md: "4rem" },
+                  textTransform: "uppercase",
+                }}
               >
-                {t("special_event")} <br /> {t("party")} <br />{" "}
-                {t("graduation")} <br /> {t("weddings")}
-              </span>
+                {t("confirmation")}
+              </Typography>
             </Typography>
             <Typography
               sx={{
@@ -115,82 +154,46 @@ export default function Login() {
                 lineHeight: "2rem",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s.
+              {t("identity_description")}
             </Typography>
             <Box sx={{ marginTop: "2rem" }}>
-              <Typography>{t("phone_number")}*</Typography>
+              <Typography>{t("code")}*</Typography>
               <Controller
-                name="phone_number"
+                name="code"
                 control={control}
                 defaultValue={""}
-                rules={{ required: t("phone_number_required") }}
+                rules={{ required: t("code_required") }}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    error={!!errors?.phone_number}
-                    helperText={errors?.phone_number?.message as string}
-                    placeholder="006XXXXXXXX"
+                    error={!!errors?.code}
+                    helperText={errors?.code?.message as string}
+                    placeholder={"000000"}
                     fullWidth
                     variant="standard"
-                    onChange={(e) => {
-                      if (!isNaN(+e.target.value)) {
-                        field.onChange(e.target.value?.replace(".", ""));
-                      }
-                    }}
                     sx={{ "& input": { height: "2rem" } }}
                   />
                 )}
               />
             </Box>
-            <Box sx={{ marginTop: "2rem" }}>
-              <Typography>{t("password")}*</Typography>
-              <Controller
-                name="password"
-                control={control}
-                defaultValue={""}
-                rules={{ required: t("password_required") }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    error={!!errors?.password}
-                    helperText={errors?.password?.message as string}
-                    placeholder={t("password")}
-                    fullWidth
-                    variant="standard"
-                    type={showPassword ? "text" : "password"}
-                    sx={{ "& input": { height: "2rem" } }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => {
-                              setShowPassword((prev) => !prev);
-                            }}
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-              />
-            </Box>
-            <Link
-              to={"/reset-password"}
-              style={{
-                color: "rgba(89, 89, 89, 1)",
-                marginTop: "1rem",
+            <LoadingButton
+              loading={loadingResend}
+              sx={{
+                marginInlineStart: "auto",
                 display: "block",
-                fontSize: "0.9rem",
+                marginTop: "1rem",
               }}
+              onClick={handleResendCode}
             >
-              {t("forgot_your_password")}
-            </Link>
-            <Stack direction={"row"} sx={{ gap: "1rem", marginTop: "1rem" }}>
-              <Button
+              {t("resend_code")}
+            </LoadingButton>
+            <Stack
+              direction={"row"}
+              sx={{ gap: "1rem", marginTop: "4rem", marginBottom: "13rem" }}
+            >
+              <ButtonLink
+                component={Link}
+                to={"/login"}
                 variant="outlined"
                 sx={{
                   borderRadius: "100vh",
@@ -202,8 +205,8 @@ export default function Login() {
                   borderColor: "rgba(89, 89, 89, 1)",
                 }}
               >
-                {t("guest")}
-              </Button>
+                {t("back_to_login")}
+              </ButtonLink>
               <Button
                 color="primary"
                 variant="contained"
