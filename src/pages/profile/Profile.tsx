@@ -129,7 +129,7 @@ export default function Profile() {
         >
           <Box sx={{margin: 'auto 0'}}>
             <Stack direction={'row'} sx={{gap: '3rem', flexWrap: 'wrap', alignItems: 'center'}}>
-              <Avatar src="" alt='profile picture' sx={{width: '15rem', height: '15rem', borderRadius: '2rem', boxShadow: 3}}/>
+              <Avatar src={user?.image ?? ''} alt='profile picture' sx={{width: '15rem', height: '15rem', borderRadius: '2rem', boxShadow: 3}}/>
               <Typography variant="h3" sx={{fontWeight: 'bold'}}>{user?.name}</Typography>
             </Stack>
             <Stack direction={'row'} sx={{gap: '2rem', flexWrap: 'wrap', marginTop: '2rem', width: 'min(100%, 50rem)'}}>
