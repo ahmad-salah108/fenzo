@@ -7,9 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useUser } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function UserAvatar() {
   const {user, handleLogout} = useUser();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -73,6 +75,7 @@ export default function UserAvatar() {
           "aria-labelledby": "basic-button",
         }}
       >
+        <MenuItem onClick={()=>{navigate('/profile'); handleClose();}}>{t("profile")}</MenuItem>
         <MenuItem onClick={handleOpenDialog}>{t("logout")}</MenuItem>
       </Menu>
       <Dialog

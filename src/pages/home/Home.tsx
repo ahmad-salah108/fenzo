@@ -54,10 +54,6 @@ export default function Home() {
     <Box sx={{ width: "100vw" }}>
       <Stack
         direction={"row"}
-        sx={{
-          maxHeight: "calc(100vh - 4.74rem)",
-          height: "calc(100vh - 4.74rem)",
-        }}
       >
         {!xsMd && <Box sx={{ width: "30rem", maxHeight: "calc(100vh - 4.6rem)", height: "calc(100vh - 4.6rem)", overflow: 'hidden' }}>
           <Slider {...settings}>
@@ -259,7 +255,7 @@ export default function Home() {
             </Button>
             <DialogEvent open={open} handleClose={handleClose}/>
           </Box>
-          <Box sx={{ marginTop: "auto", marginBottom: "2rem" }}>
+          <Box sx={{ marginTop: {xs: '5rem', md: 'auto'}, marginBottom: "2rem" }}>
             <Footer />
           </Box>
         </Stack>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AuthNavbar from "../../components/AuthNavbar";
+import AuthNavbar from "../../../components/AuthNavbar";
 import {
   Box,
   Button,
@@ -18,10 +18,10 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import i18next from "i18next";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/Footer";
 import { Controller, FieldValues, useForm } from "react-hook-form";
-import { useUser } from "../../context/UserContext";
-import ButtonLink from "../../components/ButtonLink";
+import { useUser } from "../../../context/UserContext";
+import ButtonLink from "../../../components/ButtonLink";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -65,10 +65,6 @@ export default function ResetPassord() {
         <AuthNavbar />
         <Stack
           direction={"row"}
-          sx={{
-            maxHeight: "calc(100vh - 4.74rem)",
-            height: "calc(100vh - 4.74rem)",
-          }}
         >
           {!xsMd && (
             <img
@@ -78,6 +74,7 @@ export default function ResetPassord() {
                 objectFit: "cover",
                 objectPosition: "center",
                 width: "30rem",
+                height: "calc(100vh - 4.74rem)"
               }}
             />
           )}

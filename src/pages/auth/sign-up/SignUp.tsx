@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AuthNavbar from "../../components/AuthNavbar";
+import AuthNavbar from "../../../components/AuthNavbar";
 import {
   Box,
   Button,
@@ -19,10 +19,10 @@ import { Link } from "react-router-dom";
 import i18next from "i18next";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import SignUpFields from "./components/SignUpFields";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/Footer";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../../context/UserContext";
 import { LoadingButton } from "@mui/lab";
 
 export default function SignUp() {
