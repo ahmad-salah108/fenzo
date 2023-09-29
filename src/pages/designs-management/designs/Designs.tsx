@@ -17,11 +17,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FilterRadio from "./components/FilterRadio";
-import PackageVertical from "../../components/PackageVertical";
+import PackageVertical from "../../../components/PackageVertical";
 import FilterSelect from "./components/FilterSelect";
 import { Search } from "@mui/icons-material";
 import { t } from "i18next";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/Footer";
 
 export default function Designs() {
   const theme = useTheme();

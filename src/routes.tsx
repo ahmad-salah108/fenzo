@@ -3,7 +3,7 @@ import Page404 from "./Page404";
 import Login from "./pages/auth/login/Login";
 import SignUp from "./pages/auth/sign-up/SignUp";
 import Layout from "./layout/Layout";
-import Designs from "./pages/designs/Designs";
+import Designs from "./pages/designs-management/designs/Designs";
 import Home from "./pages/home/Home";
 import Main from "./Main";
 import PrivateRoute from "./components/PrivateRoute";
@@ -12,6 +12,7 @@ import ResetPassord from "./pages/auth/reset-password/ResetPassword";
 import IdentityConfirmation from "./pages/auth/identity-confirmation/IdentityConfirmation";
 import SetNewPassword from "./pages/auth/set-new-password/SetNewPassword";
 import Profile from "./pages/profile/Profile";
+import DesignDetails from "./pages/designs-management/desing-details/DesignDetails";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
           {
             path: 'designs',
             element: <Designs/>
+          },
+          {
+            path: 'designs/:packageId',
+            element: <DesignDetails/>
           },
           {
             path: 'profile',

@@ -139,7 +139,7 @@ export default function Profile() {
               <ProfileCard title={t('country')} description={user?.country}/>
             </Stack>
           </Box>
-          <Box sx={{ marginTop: {xs: '5rem', md: 'auto'}, marginBottom: "2rem" }}>
+          <Box sx={{ marginTop: {xs: '8rem', lg: 'auto'}, marginBottom: "2rem" }}>
             <Footer />
           </Box>
         </Stack>
