@@ -10,7 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, {useEffect} from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -26,6 +26,10 @@ import Footer from "../../../components/Footer";
 export default function Designs() {
   const theme = useTheme();
   const lg = useMediaQuery(theme.breakpoints.up("lg"));
+
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
 
   return (
     <Container maxWidth='lg' sx={{paddingTop: '2rem', paddingBottom: '2rem'}}>
