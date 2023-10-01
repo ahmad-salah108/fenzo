@@ -3,7 +3,7 @@ import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import i18next from "i18next";
 import React from "react";
 
-export default function PackageHorizontal() {
+export default function Package() {
   return (
     <Paper elevation={3} sx={{ width: "365px", overflow: 'hidden' }}>
       <Stack direction={"row"}>

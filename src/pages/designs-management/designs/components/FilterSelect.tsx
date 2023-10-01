@@ -1,59 +1,111 @@
-import { Stack } from '@mui/material'
-import React from 'react'
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { Stack } from "@mui/material";
+import React from "react";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { t } from "i18next";
+import { useSearchParams } from "react-router-dom";
 
-export default function FilterSelect() {
+type FilterSelectProps = {
+  events: FenzoEvent[];
+  event: string;
+  setEvent: React.Dispatch<React.SetStateAction<string>>;
+  time: string;
+  setTime: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function FilterSelect(props: FilterSelectProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleChangeEvent = (e: SelectChangeEvent<string>) => {
+    props.setEvent(e.target.value)
+
+    let prev = {};
+
+    Array.from(searchParams.entries())?.forEach((e) => {
+      prev = {
+        ...prev,
+        [e?.[0]]: e?.[1],
+      };
+    });
+
+    setSearchParams({
+      ...prev,
+      event: `${e.target.value}`,
+    });
+  }
+
+  const handleChangeTime = (e: SelectChangeEvent<string>) => {
+    props.setTime(e.target.value)
+
+    let prev = {};
+
+    Array.from(searchParams.entries())?.forEach((e) => {
+      prev = {
+        ...prev,
+        [e?.[0]]: e?.[1],
+      };
+    });
+
+    setSearchParams({
+      ...prev,
+      time: `${e.target.value}`,
+    });
+  }
+
   return (
-    <Stack direction={'row'} sx={{gap: '2rem', marginBottom: '3rem', flexWrap: 'wrap', marginInlineStart: {xs: '0', md: '3.2rem'}}}>
-    <Box sx={{ minWidth: '10rem' }}>
-      <FormControl fullWidth size='small'>
-        <InputLabel id="demo-simple-select-label">Category</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Category"
-          sx={{'& *': {fontSize: '0.9rem'}}}
-        >
-          <MenuItem sx={{fontSize: '0.9rem'}} value={10}>Ten</MenuItem>
-          <MenuItem sx={{fontSize: '0.9rem'}} value={20}>Twenty</MenuItem>
-          <MenuItem sx={{fontSize: '0.9rem'}} value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
-    <Box sx={{ minWidth: '7rem' }}>
-      <FormControl fullWidth size='small'>
-        <InputLabel id="demo-simple-select-label">Time</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Time"
-          sx={{'& *': {fontSize: '0.9rem'}}}
-        >
-          <MenuItem sx={{fontSize: '0.9rem'}} value={10}>Ten</MenuItem>
-          <MenuItem sx={{fontSize: '0.9rem'}} value={20}>Twenty</MenuItem>
-          <MenuItem sx={{fontSize: '0.9rem'}} value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
-    <Box sx={{ minWidth: '13rem' }}>
-      <FormControl fullWidth size='small'>
-        <InputLabel id="demo-simple-select-label">Classification</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Classification"
-          sx={{'& *': {fontSize: '0.9rem'}}}
-        >
-          <MenuItem sx={{fontSize: '0.9rem'}} value={10}>Ten</MenuItem>
-          <MenuItem sx={{fontSize: '0.9rem'}} value={20}>Twenty</MenuItem>
-          <MenuItem sx={{fontSize: '0.9rem'}} value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
+    <Stack
+      direction={"row"}
+      sx={{
+        gap: "2rem",
+        marginBottom: "3rem",
+        flexWrap: "wrap",
+        marginInlineStart: { xs: "0", md: "3.2rem" },
+      }}
+    >
+      <Box sx={{ minWidth: "10rem" }}>
+        <FormControl fullWidth size="small">
+          <InputLabel id="demo-simple-select-label">{t("event")}</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Category"
+            sx={{ "& *": { fontSize: "0.9rem" } }}
+            defaultValue={props?.event ?? ''}
+            onChange={handleChangeEvent}
+            value={props?.event}
+          >
+            {props.events?.map((e) => (
+              <MenuItem key={e?.id} sx={{ fontSize: "0.9rem" }} value={e?.id}>
+                {e?.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ minWidth: "7rem" }}>
+        <FormControl fullWidth size="small">
+          <InputLabel id="demo-simple-select-label">{t("time")}</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Time"
+            sx={{ "& *": { fontSize: "0.9rem" } }}
+            defaultValue={props?.time ?? ''}
+            onChange={handleChangeTime}
+            value={props?.time}
+          >
+            <MenuItem sx={{ fontSize: "0.9rem" }} value="recent">
+              {t("recent")}
+            </MenuItem>
+            <MenuItem sx={{ fontSize: "0.9rem" }} value="last_month">
+              {t("last_month")}
+            </MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
     </Stack>
-  )
+  );
 }

@@ -331,7 +331,7 @@ function Layout(props: { window: any }) {
           {drawer}
         </Drawer>
       </nav>
-      <Box component="main" sx={{ margin: "auto" }}>
+      <Box component="main" sx={{ margin: "auto", width: '100%' }}>
         <Toolbar />
         <Box>
           <Outlet />

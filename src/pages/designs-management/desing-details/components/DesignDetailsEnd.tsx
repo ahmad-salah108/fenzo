@@ -1,6 +1,6 @@
 import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
-import PackageHorizontal from "./PackageHorizontal";
+import Package from "./Package";
 
 export default function DesignDetailsEnd() {
   const theme = useTheme();
@@ -29,28 +29,28 @@ export default function DesignDetailsEnd() {
         }}
       >
         <Box>
-          <PackageHorizontal />
+          <Package />
         </Box>
         <Box>
-          <PackageHorizontal />
+          <Package />
         </Box>
         <Box>
-          <PackageHorizontal />
+          <Package />
         </Box>
         <Box>
-          <PackageHorizontal />
+          <Package />
         </Box>
         <Box>
-          <PackageHorizontal />
+          <Package />
         </Box>
         <Box>
-          <PackageHorizontal />
+          <Package />
         </Box>
         <Box>
-          <PackageHorizontal />
+          <Package />
         </Box>
         <Box>
-          <PackageHorizontal />
+          <Package />
         </Box>
       </Stack>
     </Box>

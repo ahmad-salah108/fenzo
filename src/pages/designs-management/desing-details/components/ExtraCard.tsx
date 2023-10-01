@@ -7,12 +7,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { Controller, useFormContext } from "react-hook-form";
 import RemoveIcon from '@mui/icons-material/Remove';
 
-type PackageCheckboxProps = {
+type ExtraCardProps = {
   index: number;
   id: string
 };
 
-export default function PackageCheckbox(props: PackageCheckboxProps) {
+export default function ExtraCard(props: ExtraCardProps) {
   const {control, setValue, watch} = useFormContext();
 
   return (

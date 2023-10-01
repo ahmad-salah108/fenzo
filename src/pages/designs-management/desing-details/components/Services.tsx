@@ -2,7 +2,7 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import i18next from "i18next";
 import React from "react";
 import Slider from "react-slick";
-import PackageCheckbox from "./PackageCheckbox";
+import ExtraCard from "./ExtraCard";
 import { FormProvider, useForm } from "react-hook-form";
 
 export default function Services() {
@@ -47,7 +47,7 @@ export default function Services() {
           <Slider {...settings}>
             {[0, 1, 2, 3, 4, 5].map((e) => (
               <div>
-                <PackageCheckbox key={e} index={e} id={`${e}`} />
+                <ExtraCard key={e} index={e} id={`${e}`} />
               </div>
             ))}
           </Slider>

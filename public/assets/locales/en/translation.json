@@ -58,5 +58,8 @@
   "code_resent": "Code Resent Successfully!",
   "password_changed": "Password Changed Successfully!",
   "code_sent_to_email": "Code sent to your email",
-  "profile": "Profile"
+  "profile": "Profile",
+  "time": "Time",
+  "recent": "Recent",
+  "last_month": "Last Month"
 }

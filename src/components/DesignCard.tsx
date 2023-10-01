@@ -4,11 +4,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ButtonLink from "./ButtonLink";
 
-type PackageVerticalProps = {
+type DesignCardProps = {
   index: number;
+  data: Design
 };
 
-export default function PackageVertical(props: PackageVerticalProps) {
+export default function DesignCard(props: DesignCardProps) {
   
   return (
     <Paper
@@ -22,13 +23,13 @@ export default function PackageVertical(props: PackageVerticalProps) {
       className="card-animation"
     >
       <img
-        src="/assets/images/bg-signup.jpg"
+        src={props?.data?.design_images?.[0]?.image ?? ''}
         style={{ objectFit: "cover", height: "18rem", width: "100%" }}
       />
       <Box sx={{ width: "100%", display: "grid", placeItems: "center" }}>
         <ButtonLink
           component={Link}
-          to={'/designs/1'}
+          to={`/designs/${props?.data?.id}`}
           color="primary"
           variant="contained"
           sx={{
@@ -61,9 +62,9 @@ export default function PackageVertical(props: PackageVerticalProps) {
           marginTop: "-1.4rem",
         }}
       >
-        Wedding designs
+        {props?.data?.title}
       </Typography>
-      <Typography sx={{color: '#bbb', textAlign: 'center', fontWeight: '200'}}>Wedding</Typography>
+      <Typography sx={{color: '#bbb', textAlign: 'center', fontWeight: '200'}}>{props?.data?.event_name}</Typography>
       <Typography
         sx={{
           textAlign: "center",
@@ -74,9 +75,7 @@ export default function PackageVertical(props: PackageVerticalProps) {
         }}
         className="text-ellipsis-5"
       >
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s. asd wd qw dqw dqw qef qe fqe fqef 
+        {props?.data?.description}
       </Typography>
     </Paper>
   );
