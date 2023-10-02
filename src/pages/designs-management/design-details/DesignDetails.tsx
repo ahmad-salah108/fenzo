@@ -42,19 +42,19 @@ export default function DesignDetails() {
       if(apiCounter === 2) setLoading(false);
     })
 
-    axios.get(`${process.env.REACT_APP_API_URL}/package/index`)
-    .then(res => {
-      setPackages(res?.data?.data)
-      apiCounter++;
-      if(apiCounter === 2) setLoading(false);
-    }).catch(err => {
-      toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
-        position: "bottom-left",
-        rtl: i18next.language === "ar",
-      });
-      apiCounter++;
-      if(apiCounter === 2) setLoading(false);
-    })
+    // axios.get(`${process.env.REACT_APP_API_URL}/package/index`)
+    // .then(res => {
+    //   setPackages(res?.data?.data)
+    //   apiCounter++;
+    //   if(apiCounter === 2) setLoading(false);
+    // }).catch(err => {
+    //   toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+    //     position: "bottom-left",
+    //     rtl: i18next.language === "ar",
+    //   });
+    //   apiCounter++;
+    //   if(apiCounter === 2) setLoading(false);
+    // })
   }, []);
 
   return (
