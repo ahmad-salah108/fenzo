@@ -61,5 +61,6 @@
   "profile": "Profile",
   "time": "Time",
   "recent": "Recent",
-  "last_month": "Last Month"
+  "last_month": "Last Month",
+  "no_designs": "There is no designs"
 }

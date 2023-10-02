@@ -12,7 +12,8 @@ import ResetPassord from "./pages/auth/reset-password/ResetPassword";
 import IdentityConfirmation from "./pages/auth/identity-confirmation/IdentityConfirmation";
 import SetNewPassword from "./pages/auth/set-new-password/SetNewPassword";
 import Profile from "./pages/profile/Profile";
-import DesignDetails from "./pages/designs-management/desing-details/DesignDetails";
+import DesignDetails from "./pages/designs-management/design-details/DesignDetails";
+import PackageDetails from "./pages/package-details/PackageDetails";
 
 export const router = createBrowserRouter([
   {
@@ -31,8 +32,12 @@ export const router = createBrowserRouter([
             element: <Designs/>
           },
           {
-            path: 'designs/:packageId',
+            path: 'designs/:designId',
             element: <DesignDetails/>
+          },
+          {
+            path: 'designs/:designId/:packageId',
+            element: <PackageDetails/>
           },
           {
             path: 'profile',

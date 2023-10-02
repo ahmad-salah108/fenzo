@@ -4,7 +4,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { t } from "i18next";
 import { SetURLSearchParams, useSearchParams } from "react-router-dom";
 
@@ -55,6 +55,14 @@ export default function FilterRadio(props: FilterRadioProps) {
     });
   }
 
+  const handleReset = () => {
+    props.setEvent('')
+    props.setTime('')
+    setSearchParams({
+      page: `${searchParams.get('page') ?? 1}`
+    })
+  }
+
   return (
     <Stack sx={{ padding: "2rem 5rem", gap: '2rem', height: 'fit-content', background: '#f5f5f5', '& *': {whiteSpace: 'nowrap', fontFamily: 'Aleo, serif !important'} }}>
       <FormControl>
@@ -99,6 +107,7 @@ export default function FilterRadio(props: FilterRadioProps) {
           <FormControlLabel value="last_month" control={<Radio />} label={t('last_month')} />
         </RadioGroup>
       </FormControl>
+      <Button onClick={handleReset}>{t('reset')}</Button>
     </Stack>
   );
 }

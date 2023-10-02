@@ -2,7 +2,7 @@ import { Box, Button, Checkbox, Paper, Typography } from "@mui/material";
 import i18next from "i18next";
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import ButtonLink from "../../../../components/ButtonLink";
+import ButtonLink from "../../../components/ButtonLink";
 import AddIcon from "@mui/icons-material/Add";
 import { Controller, useFormContext } from "react-hook-form";
 import RemoveIcon from '@mui/icons-material/Remove';

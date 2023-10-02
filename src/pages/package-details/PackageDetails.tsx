@@ -6,14 +6,14 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import Footer from "../../../components/Footer";
-import DesignDetailsEnd from "./components/DesignDetailsEnd";
-import DesignDetailsStart from "./components/DesignDetailsStart";
+import Footer from "../../components/Footer";
+import PackageDetailsEnd from "./components/PackageDetailsEnd";
+import PackageDetailsStart from "./components/PackageDetailsStart";
 import React, { useEffect } from "react";
 import Extras from "./components/Extras";
 import Services from "./components/Services";
 
-export default function DesignDetails() {
+export default function PackageDetails() {
   const theme = useTheme();
   const lg = useMediaQuery(theme.breakpoints.up("lg"));
 
@@ -26,10 +26,10 @@ export default function DesignDetails() {
       <Box>
         <Grid container>
           <Grid item xs={12} lg={8}>
-            <DesignDetailsStart />
+            <PackageDetailsStart />
           </Grid>
           <Grid item xs={12} lg={4}>
-            <DesignDetailsEnd />
+            <PackageDetailsEnd />
           </Grid>
         </Grid>
         <Extras />

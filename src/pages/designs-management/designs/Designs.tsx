@@ -129,10 +129,15 @@ export default function Designs() {
             />
             {loading ? (
               <SkeletonDesigns />
-            ) : (
-              <>
+            ) : (<>{desgins?.data?.length == 0 || desgins?.data == null ? 
+              <Box sx={{height: '90vh'}}>
+                <Typography sx={{color: '#aaa', textAlign: 'center', fontSize: '1.5rem'}}>{t('no_designs')}</Typography>
+              </Box>
+              :
+            
+              <Box>
                 <Grid container spacing={3}>
-                  {desgins?.data.map((e, index) => (
+                  {desgins?.data?.map((e, index) => (
                     <Grid key={index} item xs={12} md={6}>
                       <DesignCard index={index} data={e} />
                     </Grid>
@@ -149,7 +154,8 @@ export default function Designs() {
                   page={+page}
                   onChange={handleChangePage}
                 />
-              </>
+              </Box>
+            }</>
             )}
           </Box>
         </Stack>

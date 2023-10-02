@@ -6,7 +6,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import Slider from "react-slick";
 import i18next from "i18next";
 
-export default function DesignDetailsStart() {
+export default function PackageDescription() {
   var settings = {
     ...(i18next.language === "ar" && { rtl: true }),
     dots: true,
@@ -20,29 +20,11 @@ export default function DesignDetailsStart() {
 
   return (
     <Box>
-      <Typography>
-        $250{" "}
-        <SellIcon
-          color="primary"
-          sx={{ fontSize: "0.9rem", transform: "translateX(-4px)" }}
-        />
-      </Typography>
       <Typography variant="h4" fontWeight={"600"} sx={{ marginTop: "1rem" }}>
         Couple Package
       </Typography>
       <Typography sx={{ color: "#aaa", marginBottom: "1rem" }}>
         Couple
-      </Typography>
-      <Divider
-        sx={{ width: "12rem", borderColor: "#eee", marginBottom: "1rem" }}
-      />
-      <Typography
-        sx={{ marginBottom: "1rem", display: "flex", alignItems: "center" }}
-      >
-        <WatchLaterIcon />
-        &nbsp;01 hour, 55 minute&nbsp;
-        <GroupsIcon />
-        &nbsp;120
       </Typography>
       <Typography
         sx={{ fontWeight: "200", fontSize: "0.9rem", lineHeight: "2.15rem", whiteSpace: 'pre-wrap' }}

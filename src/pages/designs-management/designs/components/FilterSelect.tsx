@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
@@ -55,6 +55,14 @@ export default function FilterSelect(props: FilterSelectProps) {
     });
   }
 
+  const handleReset = () => {
+    props.setEvent('')
+    props.setTime('')
+    setSearchParams({
+      page: `${searchParams.get('page') ?? 1}`
+    })
+  }
+
   return (
     <Stack
       direction={"row"}
@@ -105,6 +113,9 @@ export default function FilterSelect(props: FilterSelectProps) {
             </MenuItem>
           </Select>
         </FormControl>
+      </Box>
+      <Box sx={{ minWidth: "7rem" }}>
+      <Button onClick={handleReset}>{t('reset')}</Button>
       </Box>
     </Stack>
   );

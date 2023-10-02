@@ -2,7 +2,7 @@ import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import Package from "./Package";
 
-export default function DesignDetailsEnd() {
+export default function PackageDetailsEnd() {
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
