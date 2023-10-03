@@ -1,14 +1,18 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Outlet } from "react-router-dom";
 import { UserProvider, useUser } from "./context/UserContext";
 import axios from "axios";
 import i18next from "i18next";
+import { ItemsProvider, useItemsContext } from "./context/ItemsContext";
+import { useForm } from "react-hook-form";
 
 export default function Wrap() {
   return (
-    <UserProvider>
-      <Main />
-    </UserProvider>
+    <ItemsProvider>
+      <UserProvider>
+        <Main />
+      </UserProvider>
+    </ItemsProvider>
   );
 }
 

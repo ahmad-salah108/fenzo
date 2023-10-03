@@ -87,41 +87,87 @@ type Package = {
   title: string;
   description: string | null;
   images: {
-      id: number;
-      package_id: number;
-      image: string | null;
-    }[];
+    id: number;
+    package_id: number;
+    image: string | null;
+  }[];
   designs: {
-      id: number;
-      design_id: number;
-      package_id: number;
-      design_title: string;
-      design_description: string;
-      event_name: string;
-    }[];
+    id: number;
+    design_id: number;
+    package_id: number;
+    design_title: string;
+    design_description: string;
+    event_name: string;
+  }[];
   colors: {
-      id: number;
-      package_id: number;
-      color_id: number;
-      name: string;
-    }[];
+    id: number;
+    package_id: number;
+    color_id: number;
+    name: string;
+  }[];
   places: {
-      id: number;
-      package_id: number;
-      place_id: number;
-      name: string;
-    }[];
+    id: number;
+    package_id: number;
+    place_id: number;
+    name: string;
+  }[];
   materials: {
-      id: number;
-      package_id: number;
-      material_id: number;
-      name: string;
-    }[];
+    id: number;
+    package_id: number;
+    material_id: number;
+    name: string;
+  }[];
 };
 
 type Packages = {
   current_page: number;
   data: Package[];
+  first_page_url: string | null;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: Boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+};
+
+type ExtraOrService = {
+  id: number;
+  count: number;
+  price: number;
+  classification: string;
+  image: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  deleted_at: string | null;
+  title: string;
+  description: string | null;
+  type: string;
+  colors: {
+    id: number;
+    item_id: number;
+    color_id: number;
+    name: string;
+  }[];
+  materials: {
+    id: number;
+    item_id: number;
+    material_id: number;
+    name: string;
+  }[];
+};
+
+type ExtrasOrServices = {
+  current_page: number;
+  data: ExtraOrService[];
   first_page_url: string | null;
   from: number;
   last_page: number;

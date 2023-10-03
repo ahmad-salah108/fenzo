@@ -27,7 +27,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import SkeletonDesigns from "./components/SkeletonDesigns";
 import { useSearchParams } from "react-router-dom";
-import { CARDS_PER_PAGE } from "../../../constants/CardsPerPage";
+import { PER_PAGE_4 } from "../../../constants/PerPage";
 
 export default function Designs() {
   const theme = useTheme();
@@ -69,7 +69,7 @@ export default function Designs() {
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/design/index`, {
-        paginate: CARDS_PER_PAGE,
+        paginate: PER_PAGE_4,
         ... event && {event_id: event},
         ... time && {time: time}
       }, {
@@ -149,7 +149,7 @@ export default function Designs() {
                     marginInline: "auto",
                     width: "fit-content",
                   }}
-                  count={Math.ceil(desgins?.total / CARDS_PER_PAGE)}
+                  count={Math.ceil(desgins?.total / PER_PAGE_4)}
                   color="primary"
                   page={+page}
                   onChange={handleChangePage}

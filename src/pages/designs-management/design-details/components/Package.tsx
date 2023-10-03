@@ -5,20 +5,24 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import ButtonLink from "../../../../components/ButtonLink";
 
-export default function Package() {
+type PackageProps = {
+  data: Package
+}
+
+export default function Package({ data }: PackageProps) {
   const { designId } = useParams();
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'))
   return (
-    <Paper elevation={3} sx={{ width: {xs: '400px', sm: "570px"}, overflow: 'hidden', paddingInlineEnd: '1rem' }}>
+    <Paper elevation={3} sx={{ width: {xs: '365px', sm: "570px"}, overflow: 'hidden' }}>
       <Stack direction={"row"}>
         <img
-          src="https://images.unsplash.com/photo-1695983953103-17bce53a8138?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2042&q=80"
-          style={{ height: smDown ? '176px' : "200px", width: smDown ? '170px' : "200px", objectFit: "cover", objectPosition: 'center' }}
+          src={data?.images?.[0]?.image ?? ''}
+          style={{ height: smDown ? '160px' : "200px", width: smDown ? '140px' : "200px", objectFit: "cover", objectPosition: 'center' }}
         />
         <ButtonLink
           component={Link}
-          to={`/designs/${designId}/1`}
+          to={`/designs/${designId}/${data?.id}`}
           color="primary"
           variant="contained"
           sx={{
@@ -45,7 +49,7 @@ export default function Package() {
         </ButtonLink>
         <Box sx={{paddingBlock: '1rem'}}>
           <Typography sx={{fontSize: {xs: '0.7rem', sm: '1rem'}}}>
-            $250{" "}
+            ${data?.price}{" "}
             <Sell
               color="primary"
               sx={{ fontSize: {xs: '0.7rem', sm: "1rem"}, transform: "translateX(-4px)" }}
@@ -55,18 +59,18 @@ export default function Package() {
             fontWeight={"bold"}
             sx={{ fontSize: {xs: '0.8rem', sm: '1.2rem'} }}
           >
-            Couple Package
+            {data?.title}
           </Typography>
-          <Typography sx={{ color: "#aaa", fontSize: {xs: '0.7rem', sm: '0.8rem'}, marginBottom: '5px' }}>
-            Couple
+          <Typography sx={{ color: "#aaa", fontSize: {xs: '0.7rem', sm: '0.8rem'} }}>
+            {data?.designs?.map(e => e?.design_title)?.join(', ')}
           </Typography>
           <Typography
-            sx={{ marginBottom: "7px", display: "flex", alignItems: "center", fontSize: {xs: '0.7rem', sm: '1rem'} }}
+            sx={{ marginTop: '6px', marginBottom: "7px", display: "flex", alignItems: "center", fontSize: {xs: '0.7rem', sm: '1rem'} }}
           >
             <WatchLater sx={{fontSize: {xs: '0.7rem', sm: '1rem'}}}/>
             &nbsp;01 hour, 55 minute&nbsp;&nbsp;
             <Groups sx={{fontSize: {xs: '0.7rem', sm: '1rem'}}}/>
-            &nbsp;120
+            &nbsp;{data?.capacity_person_price}
           </Typography>
           {/* <Divider
             sx={{ width: "100px", borderColor: "#eee", marginBottom: "3px" }}

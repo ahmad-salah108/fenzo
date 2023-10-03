@@ -1,19 +1,45 @@
 import { Box, Button, Checkbox, Paper, Typography } from "@mui/material";
 import i18next from "i18next";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import ButtonLink from "../../../components/ButtonLink";
+import ButtonLink from "../../../../components/ButtonLink";
 import AddIcon from "@mui/icons-material/Add";
 import { Controller, useFormContext } from "react-hook-form";
-import RemoveIcon from '@mui/icons-material/Remove';
+import RemoveIcon from "@mui/icons-material/Remove";
+import { useItemsContext } from "../../../../context/ItemsContext";
 
 type ExtraCardProps = {
   index: number;
-  id: string
+  id: string;
 };
 
 export default function ExtraCard(props: ExtraCardProps) {
-  const {control, setValue, watch} = useFormContext();
+  const { control, setValue, watch } = useFormContext();
+  const { items, handleAdd, handleRemove } = useItemsContext();
+
+  useEffect(() => {
+    items?.forEach((e) => {
+      if (e?.name === `extra${props.id}`) {
+        setValue(`extra${props.id}`, e?.value);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (watch(`extra${props.id}`)) {
+      handleAdd({
+        name: `extra${props.id}`,
+        value: watch(`extra${props.id}`),
+        class: "extra",
+      });
+    } else {
+      handleRemove({
+        name: `extra${props.id}`,
+        value: watch(`extra${props.id}`),
+        class: "extra",
+      });
+    }
+  }, [watch(`extra${props.id}`)]);
 
   return (
     <Paper
@@ -28,10 +54,10 @@ export default function ExtraCard(props: ExtraCardProps) {
       className="card-animation"
     >
       <Controller
-        name={`check${props.id}`}
+        name={`extra${props.id}`}
         control={control}
         defaultValue={false}
-        render={({field}) => (
+        render={({ field }) => (
           <Checkbox
             {...field}
             disableRipple
@@ -81,9 +107,15 @@ export default function ExtraCard(props: ExtraCardProps) {
             "&:active": { boxShadow: "none" },
             transform: "translateY(-2.2rem)",
           }}
-          onClick={() => {setValue(`check${props.id}`, !watch(`check${props.id}`))}}
+          onClick={() => {
+            setValue(`extra${props.id}`, !watch(`extra${props.id}`));
+          }}
         >
-          {watch(`check${props.id}`) ? <RemoveIcon fontSize="large"/> : <img src="/assets/icons/plus.svg" width={"20rem"} /> }
+          {watch(`extra${props.id}`) ? (
+            <RemoveIcon fontSize="large" />
+          ) : (
+            <img src="/assets/icons/plus.svg" width={"20rem"} />
+          )}
         </Button>
       </Box>
       <Typography

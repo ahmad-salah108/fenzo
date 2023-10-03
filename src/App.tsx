@@ -11,7 +11,7 @@ import { theme } from "./theme";
 import { router } from "./routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { UserProvider, useUser } from "./context/UserContext";
+import { ItemsProvider } from "./context/ItemsContext";
 
 // Create rtl cache
 const cacheRtl = createCache({
@@ -22,7 +22,6 @@ const cacheRtl = createCache({
 const cache = createCache({ key: "css" });
 
 function App() {
-
   useEffect(() => {
     if (i18next.language == "ar") {
       document.dir = "rtl";

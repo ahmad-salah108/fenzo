@@ -13,7 +13,7 @@ import IdentityConfirmation from "./pages/auth/identity-confirmation/IdentityCon
 import SetNewPassword from "./pages/auth/set-new-password/SetNewPassword";
 import Profile from "./pages/profile/Profile";
 import DesignDetails from "./pages/designs-management/design-details/DesignDetails";
-import PackageDetails from "./pages/package-details/PackageDetails";
+import PackageDetails from "./pages/designs-management/package-details/PackageDetails";
 
 export const router = createBrowserRouter([
   {
