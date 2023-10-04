@@ -63,5 +63,9 @@
   "recent": "أضيف مؤخراً",
   "last_month": "الشهر الماضي",
   "no_designs": "لا يوجد تصاميم",
-  "no_packages": "لا يوجد حزم"
+  "no_packages": "لا يوجد حزم",
+  "no_categories": "لا يوجد تصنيفات",
+  "design_details": "تفاصيل التصميم",
+  "package": "الحزمة",
+  "categories": "التصنيفات"
 }

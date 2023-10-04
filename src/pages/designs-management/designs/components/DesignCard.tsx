@@ -2,7 +2,7 @@ import { Box, Button, Paper, Typography } from "@mui/material";
 import i18next from "i18next";
 import React from "react";
 import { Link } from "react-router-dom";
-import ButtonLink from "./ButtonLink";
+import ButtonLink from "../../../../components/ButtonLink";
 
 type DesignCardProps = {
   index: number;

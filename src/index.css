@@ -70,11 +70,11 @@ input::-ms-clear {
     transform: translateY(0);
   }
 }
-input[type="number"]::-webkit-inner-spin-button,
+/* input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
+} */
 .underline-hover:hover {
   text-decoration: underline;
 }

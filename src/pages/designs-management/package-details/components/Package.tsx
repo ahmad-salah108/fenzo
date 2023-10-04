@@ -2,16 +2,22 @@ import { Groups, Sell, WatchLater } from "@mui/icons-material";
 import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import i18next from "i18next";
 import React from "react";
+import ButtonLink from "../../../../components/ButtonLink";
+import { Link, useParams } from "react-router-dom";
 
-export default function Package() {
+export default function Package({data}: {data: Package}) {
+  const { packageId, designId } = useParams();
+
   return (
     <Paper elevation={3} sx={{ width: "365px", overflow: 'hidden' }}>
       <Stack direction={"row"}>
         <img
-          src="https://images.unsplash.com/photo-1695983953103-17bce53a8138?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2042&q=80"
-          style={{ maxHeight: "157px", width: "140px", objectFit: "cover", objectPosition: 'center' }}
+          src={data?.images?.[0]?.image ?? ''}
+          style={{ maxHeight: "157px", width: "140px", height: '140px', objectFit: "cover", objectPosition: 'center' }}
         />
-        <Button
+        <ButtonLink
+          component={Link}
+          to={`/designs/${designId}/${packageId}`}
           color="primary"
           variant="contained"
           sx={{
@@ -35,10 +41,10 @@ export default function Package() {
               style={{ rotate: "180deg", transform: "translateX(0.05rem)", width: '0.7rem' }}
             />
           )}
-        </Button>
+        </ButtonLink>
         <Box sx={{paddingBlock: '1rem'}}>
           <Typography sx={{fontSize: '0.7rem'}}>
-            $250{" "}
+            ${data?.price}{" "}
             <Sell
               color="primary"
               sx={{ fontSize: "0.7rem", transform: "translateX(-4px)" }}
@@ -48,10 +54,10 @@ export default function Package() {
             fontWeight={"bold"}
             sx={{ fontSize: '0.8rem' }}
           >
-            Couple Package
+            {data?.title}
           </Typography>
           <Typography sx={{ color: "#aaa", fontSize: '0.7rem', marginBottom: '2px' }}>
-            Couple
+            {data?.designs?.map(e => e?.design_title)?.join(', ')}
           </Typography>
           <Typography
             sx={{ marginBottom: "7px", display: "flex", alignItems: "center", fontSize: '0.7rem' }}
@@ -59,7 +65,7 @@ export default function Package() {
             <WatchLater sx={{fontSize: '0.8rem'}}/>
             &nbsp;01 hour, 55 minute&nbsp;
             <Groups sx={{fontSize: '0.8rem'}}/>
-            &nbsp;120
+            &nbsp;{data?.capacity_person_price}
           </Typography>
           {/* <Divider
             sx={{ width: "100px", borderColor: "#eee", marginBottom: "3px" }}
@@ -73,9 +79,7 @@ export default function Package() {
             }}
             className="text-ellipsis-4"
           >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
+            {data?.description}
           </Typography>
         </Box>
       </Stack>

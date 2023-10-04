@@ -2,7 +2,7 @@ import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import Package from "./Package";
 
-export default function PackageDetailsEnd() {
+export default function PackageDetailsEnd({relatedPackages}: {relatedPackages: Packages}) {
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -28,30 +28,11 @@ export default function PackageDetailsEnd() {
           "&::-webkit-scrollbar": { width: "6px", height: "6px" },
         }}
       >
-        <Box>
-          <Package />
-        </Box>
-        <Box>
-          <Package />
-        </Box>
-        <Box>
-          <Package />
-        </Box>
-        <Box>
-          <Package />
-        </Box>
-        <Box>
-          <Package />
-        </Box>
-        <Box>
-          <Package />
-        </Box>
-        <Box>
-          <Package />
-        </Box>
-        <Box>
-          <Package />
-        </Box>
+        {relatedPackages?.data?.map(e => (
+          <Box>
+            <Package key={e?.id} data={e}/>
+          </Box>
+        ))}
       </Stack>
     </Box>
   );

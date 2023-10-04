@@ -63,5 +63,9 @@
   "recent": "Recent",
   "last_month": "Last Month",
   "no_designs": "There is no designs",
-  "no_packages": "There is no packages"
+  "no_packages": "There is no packages",
+  "no_categories": "There is no categories",
+  "design_details": "Design Details",
+  "package": "Package",
+  "categories": "Categories"
 }

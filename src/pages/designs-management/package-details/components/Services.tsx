@@ -1,36 +1,49 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Pagination,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import i18next from "i18next";
 import React from "react";
-import Slider from "react-slick";
-import ExtraCard from "./ExtraCard";
 import { FormProvider, useForm } from "react-hook-form";
+import ServiceCard from "./ServiceCard";
 
-export default function Services() {
+export default function Services({
+  services,
+  pageServices,
+  setPageServices,
+}: {
+  services: Categories;
+  pageServices: number,
+  setPageServices: React.Dispatch<React.SetStateAction<number>>
+}) {
   const theme = useTheme();
-  const xs = useMediaQuery(theme.breakpoints.up("xs"));
-  const sm = useMediaQuery(theme.breakpoints.up("sm"));
-  const md = useMediaQuery(theme.breakpoints.up("md"));
   const lg = useMediaQuery(theme.breakpoints.up("lg"));
+  const md = useMediaQuery(theme.breakpoints.up("md"));
   const methods = useForm();
 
-  var settings = {
-    ...(i18next.language === "ar" && { rtl: true }),
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: lg ? 3 : md ? 2 : xs ? 1 : 1,
-    slidesToScroll: lg ? 3 : md ? 2 : xs ? 1 : 1,
-    adaptiveHeight: true,
-    arrows: xs && !sm ? false : true,
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPageServices(value);
   };
 
   return (
-    <Box sx={{ marginTop: "5rem" }}>
+    <Box sx={{ marginTop: "3rem" }}>
       <FormProvider {...methods}>
-        <Typography sx={{fontFamily: "Aleo, serif !important", fontSize: '1.5rem', fontWeight: '600'}}>Other Services</Typography>
-        <Typography sx={{ color: "#bbb", fontSize: "0.9rem", fontFamily: "Aleo, serif !important" }}>
-          Customize
+        <Typography
+          sx={{
+            fontFamily: "Aleo, serif !important",
+            fontSize: "1.5rem",
+            fontWeight: "600",
+          }}
+        >
+          Other Services
         </Typography>
+        {/* <Typography sx={{ color: "#bbb", fontSize: "0.9rem", fontFamily: "Aleo, serif !important" }}>
+          Customize
+        </Typography> */}
         <Box
           mt={2}
           sx={{
@@ -44,13 +57,20 @@ export default function Services() {
             },
           }}
         >
-          <Slider {...settings}>
-            {[0, 1, 2, 3, 4, 5].map((e) => (
-              <div>
-                <ExtraCard key={e} index={e} id={`${e}`} />
-              </div>
+          <Grid container spacing={2}>
+            {services?.data?.map((e, i) => (
+              <Grid key={e?.id} item xs={12} md={6} lg={4}>
+                <ServiceCard index={i} data={e} />
+              </Grid>
             ))}
-          </Slider>
+          </Grid>
+          <Pagination
+            count={Math.ceil(services?.total / (lg ? 3 : md ? 2 : 1))}
+            color="primary"
+            sx={{ marginTop: "2rem", marginInline: 'auto', width: "fit-content" }}
+            page={pageServices}
+            onChange={handleChange}
+          />
         </Box>
       </FormProvider>
     </Box>

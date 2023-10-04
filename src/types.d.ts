@@ -75,6 +75,20 @@ type FenzoEvent = {
   deleted_at: string | null;
 };
 
+type Material = {
+  id: number;
+  package_id: number;
+  material_id: number;
+  name: string;
+}
+
+type Color = {
+  id: number;
+  package_id: number;
+  color_id: number;
+  name: string;
+}
+
 type Package = {
   id: number;
   min_capacity: number | null;
@@ -99,24 +113,14 @@ type Package = {
     design_description: string;
     event_name: string;
   }[];
-  colors: {
-    id: number;
-    package_id: number;
-    color_id: number;
-    name: string;
-  }[];
+  colors: Color[];
   places: {
     id: number;
     package_id: number;
     place_id: number;
     name: string;
   }[];
-  materials: {
-    id: number;
-    package_id: number;
-    material_id: number;
-    name: string;
-  }[];
+  materials: Material[];
 };
 
 type Packages = {
@@ -139,7 +143,7 @@ type Packages = {
   total: number;
 };
 
-type ExtraOrService = {
+type Item = {
   id: number;
   count: number;
   price: number;
@@ -151,23 +155,25 @@ type ExtraOrService = {
   title: string;
   description: string | null;
   type: string;
-  colors: {
-    id: number;
-    item_id: number;
-    color_id: number;
-    name: string;
-  }[];
-  materials: {
-    id: number;
-    item_id: number;
-    material_id: number;
-    name: string;
-  }[];
+  colors: Color[];
+  materials: Material[];
 };
 
-type ExtrasOrServices = {
+type Category = {
+  id: number;
+  classification: string;
+  image: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  deleted_at: string | null;
+  title: string;
+  description: string | null;
+  items?: Item[]
+};
+
+type Categories = {
   current_page: number;
-  data: ExtraOrService[];
+  data: Category[];
   first_page_url: string | null;
   from: number;
   last_page: number;

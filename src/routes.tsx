@@ -14,6 +14,8 @@ import SetNewPassword from "./pages/auth/set-new-password/SetNewPassword";
 import Profile from "./pages/profile/Profile";
 import DesignDetails from "./pages/designs-management/design-details/DesignDetails";
 import PackageDetails from "./pages/designs-management/package-details/PackageDetails";
+import ExtraCategories from "./pages/designs-management/extra-categories/ExtraCategories";
+import ServiceCategories from "./pages/designs-management/service-categories/ServiceCategories";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +40,14 @@ export const router = createBrowserRouter([
           {
             path: 'designs/:designId/:packageId',
             element: <PackageDetails/>
+          },
+          {
+            path: 'designs/:designId/:packageId/extra-categories',
+            element: <ExtraCategories/>
+          },
+          {
+            path: 'designs/:designId/:packageId/service-categories',
+            element: <ServiceCategories/>
           },
           {
             path: 'profile',

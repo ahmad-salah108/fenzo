@@ -8,13 +8,13 @@ import { Controller, useFormContext } from "react-hook-form";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useItemsContext } from "../../../../context/ItemsContext";
 
-type ExtraCardProps = {
+type ServiceCardProps = {
   index: number;
   data?: Category;
   id?: string;
 };
 
-export default function ExtraCard(props: ExtraCardProps) {
+export default function ServiceCard(props: ServiceCardProps) {
   const path = useLocation().pathname;
 
   return (
@@ -35,7 +35,7 @@ export default function ExtraCard(props: ExtraCardProps) {
       <Box sx={{ width: "100%", display: "grid", placeItems: "center" }}>
         <ButtonLink
           component={Link}
-          to={`${path}/extra-categories`}
+          to={`${path}/service-categories`}
           color="primary"
           variant="contained"
           sx={{

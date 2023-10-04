@@ -17,44 +17,72 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import i18next, { t } from "i18next";
 import { PER_PAGE_3 } from "../../../constants/PerPage";
+import SkeletonDetails from "../../../components/SkeletonDetails";
 
 export default function PackageDetails() {
   const theme = useTheme();
   const lg = useMediaQuery(theme.breakpoints.up("lg"));
-  const { packageId } = useParams();
+  const xs = useMediaQuery(theme.breakpoints.up("xs"));
+  const md = useMediaQuery(theme.breakpoints.up("md"));
+  const { packageId, designId } = useParams();
   const [packageData, setPackageData] = useState<Package>({} as Package);
-  const [extras, setExtras] = useState<ExtrasOrServices>({} as ExtrasOrServices);
-  const [services, setServices] = useState<ExtrasOrServices>({} as ExtrasOrServices);
+  const [extras, setExtras] = useState<Categories>({} as Categories);
+  const [services, setServices] = useState<Categories>({} as Categories);
   const [loading, setLoading] = useState<Boolean>(true)
-  const [loadingEXtras, setLoadingExtras] = useState<Boolean>(true)
+  const [loadingExtras, setLoadingExtras] = useState<Boolean>(true)
   const [loadingServices, setLoadingServices] = useState<Boolean>(true)
   const [pageExtras, setPageExtras] = useState<number>(1);
   const [pageServices, setPageServices] = useState<number>(1);
+  const [relatedPackages, setRelatedPackages] = useState<Packages>({} as Packages);
 
   // GET PACKAGE DETAILS
   useEffect(() => {
     window.scrollTo(0, 0);
 
+    let apiCounter = 0;
+
     axios.get(`${process.env.REACT_APP_API_URL}/package/show/${packageId}`)
     .then(res => {
       setPackageData(res?.data?.data)
-      setLoading(false)
+      apiCounter++;
+      if(apiCounter === 2) setLoading(false);
     }).catch(err => {
       toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
         position: "bottom-left",
         rtl: i18next.language === "ar",
       });
-      setLoading(false);
+      apiCounter++;
+      if(apiCounter === 2) setLoading(false);
+    })
+
+    axios.post(`${process.env.REACT_APP_API_URL}/package/index`, {
+      paginate: 20,
+      design_id: designId
+    }, {
+      params: {
+        page: 1
+      }
+    })
+    .then(res => {
+      setRelatedPackages(res?.data?.data)
+      apiCounter++;
+      if(apiCounter === 2) setLoading(false);
+    }).catch(err => {
+      toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+        position: "bottom-left",
+        rtl: i18next.language === "ar",
+      });
+      apiCounter++;
+      if(apiCounter === 2) setLoading(false);
     })
   }, []);
 
-  // GET EXTRAS FOR PACKAGE
+  // GET EXTRAS
   useEffect(()=>{
     setLoadingExtras(true)
     
-    axios.post(`${process.env.REACT_APP_API_URL}/item/get-extra-from-package`, {
-      paginate: PER_PAGE_3,
-      package_id: packageId
+    axios.post(`${process.env.REACT_APP_API_URL}/category/get-category-extra`, {
+      paginate: lg ? 3 : md ? 2 : 1,
     }, {
       params: {
         page: pageExtras
@@ -70,15 +98,14 @@ export default function PackageDetails() {
       });
       setLoadingExtras(false);
     })
-  },[pageExtras])
+  },[pageExtras, md, lg])
 
-  // GET SERVICES FOR PACKAGE
+  // GET SERVICES
   useEffect(()=>{
     setLoadingServices(true)
 
-    axios.post(`${process.env.REACT_APP_API_URL}/item/get-services-from-package`, {
-      paginate: PER_PAGE_3,
-      package_id: packageId
+    axios.post(`${process.env.REACT_APP_API_URL}/category/get-category-services`, {
+      paginate: lg ? 3 : md ? 2 : 1,
     }, {
       params: {
         page: pageServices
@@ -94,7 +121,16 @@ export default function PackageDetails() {
       });
       setLoadingServices(false);
     })
-  },[pageServices])
+  },[pageServices, md, lg])
+
+  useEffect(()=>{
+    setPageExtras(1);
+    setPageServices(1);
+  },[md, lg])
+
+  if(loading){
+    return <SkeletonDetails/>
+  }
 
   return (
     <Container maxWidth="lg" sx={{ paddingTop: "2rem", paddingBottom: "2rem" }}>
@@ -104,11 +140,11 @@ export default function PackageDetails() {
             <PackageDetailsStart data={packageData}/>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <PackageDetailsEnd />
+            <PackageDetailsEnd relatedPackages={relatedPackages}/>
           </Grid>
         </Grid>
-        <Extras />
-        <Services />
+        <Extras extras={extras} pageExtras={pageExtras} setPageExtras={setPageExtras}/>
+        <Services services={services} pageServices={pageServices} setPageServices={setPageServices}/>
         <Button
           variant="outlined"
           sx={{

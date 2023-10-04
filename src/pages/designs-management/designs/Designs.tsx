@@ -18,7 +18,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FilterRadio from "./components/FilterRadio";
-import DesignCard from "../../../components/DesignCard";
+import DesignCard from "./components/DesignCard";
 import FilterSelect from "./components/FilterSelect";
 import { Search } from "@mui/icons-material";
 import i18next, { t } from "i18next";
