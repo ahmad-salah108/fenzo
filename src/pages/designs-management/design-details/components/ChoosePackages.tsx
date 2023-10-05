@@ -19,7 +19,7 @@ type ChoosePackageProps = {
   page: number;
   handleChange: (event: React.ChangeEvent<unknown>, value: number) => void;
   packages: Packages;
-  loadingPackages: Boolean
+  loadingPackages: Boolean,
 };
 
 export default function ChoosePackages(props: ChoosePackageProps) {
@@ -27,31 +27,7 @@ export default function ChoosePackages(props: ChoosePackageProps) {
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
-    <Box sx={{ marginTop: "3rem" }}>
-      <Typography
-        sx={{
-          fontSize: "1.5rem",
-          fontWeight: "700",
-          fontFamily: "Aleo, serif !important",
-        }}
-      >
-        Choose Any Packages
-      </Typography>
-      <TextField
-        variant="standard"
-        placeholder={t("search")}
-        sx={{
-          marginBlock: "2rem",
-          width: "min(100%, 54rem)",
-        }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search />
-            </InputAdornment>
-          ),
-        }}
-      />
+    <Box sx={{ marginTop: "1rem" }}>
       <Stack
         sx={{
           // width: { xs: "90vw", lg: "auto" },

@@ -6,7 +6,7 @@ import ButtonLink from "../../../../components/ButtonLink";
 import AddIcon from "@mui/icons-material/Add";
 import { Controller, useFormContext } from "react-hook-form";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useItemsContext } from "../../../../context/ItemsContext";
+import { useCartContext } from "../../../../context/CartContext";
 import Material from "./Material";
 import ColorPicker from "./ColorPicker";
 import Chairs from "./Chairs";

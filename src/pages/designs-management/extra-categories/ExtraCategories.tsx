@@ -29,6 +29,7 @@ export default function ExtraCategories() {
   const theme = useTheme();
   const md = useMediaQuery(theme.breakpoints.up("md"));
   const lg = useMediaQuery(theme.breakpoints.up("lg"));
+  const [search, setSearch] = useState<string>('')
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -37,31 +38,48 @@ export default function ExtraCategories() {
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
+    let unmounted = false;
+    let source = axios.CancelToken.source();
+
+    if(search){
+      setPage(1)
+    }
 
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/category/get-category-and-item-extra`,
         {
           paginate: 2,
+          ... search && {title: search}
         },
         {
+          cancelToken: source.token,
           params: {
             page: page,
           },
         }
       )
       .then((res) => {
-        setExtraCategories(res?.data?.data);
-        setLoading(false);
+        if (!unmounted) {
+          setExtraCategories(res?.data?.data);
+          setLoading(false);
+        }
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
-          position: "bottom-left",
-          rtl: i18next.language === "ar",
-        });
-        setLoading(false);
+        if (!unmounted) {
+          toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+            position: "bottom-left",
+            rtl: i18next.language === "ar",
+          });
+          setLoading(false);
+        }
       });
-  }, [page]);
+
+      return function(){
+        unmounted = true;
+        source.cancel("Cancelling in cleanup");
+      }
+  }, [page, search]);
 
   return (
     <Container maxWidth="lg" sx={{ paddingTop: "2rem", paddingBottom: "2rem" }}>
@@ -69,8 +87,9 @@ export default function ExtraCategories() {
         <TextField
           variant="standard"
           placeholder={t("search")}
+          value={search}
+          onChange={e=>setSearch(e.target.value)}
           sx={{
-            // marginInlineStart: { xs: "0", md: "3.2rem" },
             marginBottom: "2rem",
             width: "100%",
           }}

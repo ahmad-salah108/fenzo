@@ -39,6 +39,7 @@ export default function Designs() {
   const [page, setPage] = useState(searchParams.get("page") ?? 1);
   const [event, setEvent] = useState(searchParams.get("event") ?? "");
   const [time, setTime] = useState(searchParams.get("time") ?? "");
+  const [search, setSearch] = useState<string>('')
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -66,29 +67,47 @@ export default function Designs() {
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
+    let unmounted = false;
+    let source = axios.CancelToken.source();
+
+    if(search){
+      setPage(1)
+    }
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/design/index`, {
         paginate: PER_PAGE_4,
         ... event && {event_id: event},
-        ... time && {time: time}
+        ... time && {time: time},
+        ... search && {title: search}
       }, {
+        cancelToken: source.token,
         params: {
           page: page,
         },
       })
       .then((res) => {
-        setDesigns(res?.data?.data);
-        setLoading(false);
+        if (!unmounted) {
+          setDesigns(res?.data?.data);
+          setLoading(false);
+        }
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
-          position: "bottom-left",
-          rtl: i18next.language === "ar",
-        });
-        setLoading(false);
+        if (!unmounted) {
+          toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+            position: "bottom-left",
+            rtl: i18next.language === "ar",
+          });
+          setLoading(false);
+        }
       });
-  }, [page, event, time]);
+
+      return function(){
+        unmounted = true;
+        source.cancel("Cancelling in cleanup");
+      }
+      
+  }, [page, event, time, search]);
 
   useEffect(() => {
     axios
@@ -114,6 +133,8 @@ export default function Designs() {
             <TextField
               variant="standard"
               placeholder={t("search")}
+              value={search}
+              onChange={(e)=>setSearch(e.target.value)}
               sx={{
                 marginInlineStart: { xs: "0", md: "3.2rem" },
                 marginBottom: "3rem",

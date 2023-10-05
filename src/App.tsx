@@ -11,7 +11,7 @@ import { theme } from "./theme";
 import { router } from "./routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ItemsProvider } from "./context/ItemsContext";
+import { CartProvider } from "./context/CartContext";
 
 // Create rtl cache
 const cacheRtl = createCache({

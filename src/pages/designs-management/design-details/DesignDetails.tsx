@@ -3,6 +3,8 @@ import {
   Button,
   Container,
   Grid,
+  InputAdornment,
+  TextField,
   Typography,
   useMediaQuery,
   useTheme,
@@ -17,6 +19,7 @@ import { toast } from "react-toastify";
 import i18next, { t } from "i18next";
 import SkeletonDesignDetails from "../../../components/SkeletonDetails";
 import { PER_PAGE_4 } from "../../../constants/PerPage";
+import { Search } from "@mui/icons-material";
 
 export default function DesignDetails() {
   const theme = useTheme();
@@ -27,6 +30,7 @@ export default function DesignDetails() {
   const [design, setDesign] = useState<Design>({} as Design);
   const [packages, setPackages] = useState<Packages>({} as Packages);
   const [page, setPage] = React.useState(1);
+  const [search, setSearch] = useState<string>("");
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
@@ -51,31 +55,49 @@ export default function DesignDetails() {
 
   useEffect(() => {
     setLoadingPackages(true);
+    let unmounted = false;
+    let source = axios.CancelToken.source();
+
+    if (search) {
+      setPage(1);
+    }
+
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/package/index`,
         {
           paginate: PER_PAGE_4,
-          design_id: designId
+          design_id: designId,
+          ...(search && { title: search }),
         },
         {
+          cancelToken: source.token,
           params: {
             page: page,
           },
         }
       )
       .then((res) => {
-        setPackages(res?.data?.data);
-        setLoadingPackages(false);
+        if (!unmounted) {
+          setPackages(res?.data?.data);
+          setLoadingPackages(false);
+        }
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
-          position: "bottom-left",
-          rtl: i18next.language === "ar",
-        });
-        setLoadingPackages(false);
+        if (!unmounted) {
+          toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+            position: "bottom-left",
+            rtl: i18next.language === "ar",
+          });
+          setLoadingPackages(false);
+        }
       });
-  }, [page]);
+
+    return function () {
+      unmounted = true;
+      source.cancel("Cancelling in cleanup");
+    };
+  }, [page, search]);
 
   if (loading) {
     return <SkeletonDesignDetails />;
@@ -85,6 +107,33 @@ export default function DesignDetails() {
     <Container maxWidth="lg" sx={{ paddingTop: "2rem", paddingBottom: "2rem" }}>
       <Box>
         <DesignDescription design={design} />
+        <Typography
+          sx={{
+            fontSize: "1.5rem",
+            fontWeight: "700",
+            fontFamily: "Aleo, serif !important",
+            marginTop: '3rem'
+          }}
+        >
+          Choose Any Packages
+        </Typography>
+        <TextField
+          variant="standard"
+          placeholder={t("search")}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{
+            marginBlock: "2rem",
+            width: "min(100%, 54rem)",
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+        />
         {packages?.data?.length > 0 ? (
           <ChoosePackages
             page={page}
@@ -94,7 +143,7 @@ export default function DesignDetails() {
           />
         ) : (
           <Typography sx={{ color: "#888", fontSize: "1.4rem" }}>
-            {t('no_packages')}
+            {t("no_packages")}
           </Typography>
         )}
       </Box>

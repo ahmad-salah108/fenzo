@@ -3,16 +3,16 @@ import { Outlet } from "react-router-dom";
 import { UserProvider, useUser } from "./context/UserContext";
 import axios from "axios";
 import i18next from "i18next";
-import { ItemsProvider, useItemsContext } from "./context/ItemsContext";
+import { CartProvider, useCartContext } from "./context/CartContext";
 import { useForm } from "react-hook-form";
 
 export default function Wrap() {
   return (
-    <ItemsProvider>
+    <CartProvider>
       <UserProvider>
         <Main />
       </UserProvider>
-    </ItemsProvider>
+    </CartProvider>
   );
 }
 
