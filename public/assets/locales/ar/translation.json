@@ -67,5 +67,7 @@
   "no_categories": "لا يوجد تصنيفات",
   "design_details": "تفاصيل التصميم",
   "package": "الحزمة",
-  "categories": "التصنيفات"
+  "categories": "التصنيفات",
+  "upload_photo": "رفع الصورة",
+  "profile_picture": "صورة الملف الشخصي"
 }

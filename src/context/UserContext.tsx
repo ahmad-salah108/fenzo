@@ -25,11 +25,17 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const handleSignUp = (data: FieldValues, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
     setLoading(true)
-    axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
-      ...data,
-      name: data.full_name,
-      phone: data.phone_number,
-    }).then(res => {
+
+    const formData = new FormData();
+    formData.append('name', data.full_name);
+    formData.append('email', data.email);
+    formData.append('phone', data.phone_number);
+    formData.append('age', data.age);
+    formData.append('country', data.country);
+    formData.append('password', data.password);
+    formData.append('image', data.image);
+
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, formData).then(res => {
       toast.success(t('resgistered_successfully'), {
         position: "bottom-left",
         rtl: i18next.language === 'ar'

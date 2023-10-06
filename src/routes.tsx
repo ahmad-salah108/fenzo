@@ -16,6 +16,7 @@ import DesignDetails from "./pages/designs-management/design-details/DesignDetai
 import PackageDetails from "./pages/designs-management/package-details/PackageDetails";
 import ExtraCategories from "./pages/designs-management/extra-categories/ExtraCategories";
 import ServiceCategories from "./pages/designs-management/service-categories/ServiceCategories";
+import Cart from "./pages/cart/Cart";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
           {
             path: 'designs/:designId/:packageId/service-categories',
             element: <ServiceCategories/>
+          },
+          {
+            path: 'cart',
+            element: <PrivateRoute><Cart/></PrivateRoute>
           },
           {
             path: 'profile',

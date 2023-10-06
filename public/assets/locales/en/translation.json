@@ -67,5 +67,7 @@
   "no_categories": "There is no categories",
   "design_details": "Design Details",
   "package": "Package",
-  "categories": "Categories"
+  "categories": "Categories",
+  "upload_photo": "Upload Photo",
+  "profile_picture": "Profile Picture"
 }

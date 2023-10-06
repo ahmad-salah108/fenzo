@@ -46,7 +46,7 @@ export default function DesignDescription(props: DesignDescriptionProps) {
       >
         {props?.design?.description}
       </Typography>
-      <Box sx={{ marginTop: '2rem', width: {xs: '85vw', lg: '745px'}, '& .slick-list': {height: {xs: '60vw !important', lg: '450px !important'}} }}>
+      <Box sx={{ marginTop: '2rem', width: '100%', '& .slick-list': {height: {xs: '60vw !important', lg: '450px !important'}} }}>
         <Slider {...settings}>
           {props?.design?.design_images?.map(e => (
             <div key={e?.id}>

@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   TextField,
   Typography,
   InputAdornment,
   IconButton,
+  Button,
+  Stack,
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { Controller, useFormContext } from "react-hook-form";
 
-export default function SignUpFields() {
+export default function SignUpFields({
+  image,
+  setImage
+}: {
+  image: any | null,
+  setImage: React.Dispatch<any>
+}) {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPassword2, setShowPassword2] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const {
     control,
     setValue,
@@ -23,6 +32,27 @@ export default function SignUpFields() {
 
   return (
     <Box>
+      <Box sx={{ marginTop: "2rem" }}>
+        <Typography mb={1}>{t("profile_picture")}*</Typography>
+        <Stack
+          sx={{
+            background: "rgba(246, 246, 246, 1)",
+            padding: "1rem",
+            borderRadius: "10px",
+            width: "200px",
+            height: "200px",
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '15px'
+          }}
+        >
+          {image ? <img src={image && URL.createObjectURL(image)} style={{objectFit: 'contain', width: '100%', height: '100%', cursor: 'pointer'}} onClick={()=>{fileInputRef.current?.click()}}/> : <>
+          <img src='/assets/icons/cloud.svg'/>
+          <Button variant="contained" onClick={()=>{fileInputRef.current?.click()}}>{t('upload_photo')}</Button>
+          </>}
+        </Stack>
+      </Box>
+      <input ref={fileInputRef} type="file" style={{display: 'none'}} onChange={(e)=>{setImage(e.target.files?.[0])}}/>
       <Box sx={{ marginTop: "2rem" }}>
         <Typography>{t("full_name")}*</Typography>
         <Controller
@@ -174,11 +204,14 @@ export default function SignUpFields() {
           name="confirm_password"
           control={control}
           defaultValue={""}
-          rules={{ required: t("confirm_password_required"), validate: (value) => {
-            if(watch('password') != value){
-              return t('password_mismatch')
-            }
-          } }}
+          rules={{
+            required: t("confirm_password_required"),
+            validate: (value) => {
+              if (watch("password") != value) {
+                return t("password_mismatch");
+              }
+            },
+          }}
           render={({ field }) => (
             <TextField
               {...field}

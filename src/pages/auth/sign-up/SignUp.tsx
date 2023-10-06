@@ -35,9 +35,10 @@ export default function SignUp() {
   const { handleSubmit } = methods;
   const { handleSignUp } = useUser();
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState<any | null>();
 
   const onSubmit = (data: FieldValues) => {
-    handleSignUp(data, setLoading);
+    handleSignUp({...data, image}, setLoading);
   };
 
   return (
@@ -115,7 +116,7 @@ export default function SignUp() {
                 industry. Lorem Ipsum has been the industry's standard dummy
                 text ever since the 1500s.
               </Typography>
-              <SignUpFields />
+              <SignUpFields image={image} setImage={setImage}/>
               <Stack direction={"row"} sx={{ gap: "1rem", marginTop: "2rem" }}>
                 <Button
                   variant="outlined"

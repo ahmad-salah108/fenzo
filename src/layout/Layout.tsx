@@ -16,7 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../context/UserContext";
@@ -34,6 +34,7 @@ function Layout(props: { window: any }) {
   const { user } = useUser();
   const theme = useTheme();
   const md = useMediaQuery(theme.breakpoints.down("md"));
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -299,7 +300,7 @@ function Layout(props: { window: any }) {
                   alignItems: "center",
                 }}
               >
-                <IconButton sx={{ width: "35px", height: "35px" }}>
+                <IconButton sx={{ width: "35px", height: "35px" }} onClick={()=>navigate('/cart')}>
                   <img src="/assets/icons/cart.svg" />
                 </IconButton>
                 <IconButton sx={{ width: "35px", height: "35px" }}>
