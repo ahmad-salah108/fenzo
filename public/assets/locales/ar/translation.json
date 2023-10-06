@@ -69,5 +69,7 @@
   "package": "الحزمة",
   "categories": "التصنيفات",
   "upload_photo": "رفع الصورة",
-  "profile_picture": "صورة الملف الشخصي"
+  "profile_picture": "صورة الملف الشخصي",
+  "selected_successfully": "تم اختيار الحزمة بنجاح",
+  "added_successfully": "تمت الإضافة بنجاح"
 }

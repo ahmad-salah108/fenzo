@@ -80,14 +80,30 @@ type Material = {
   package_id: number;
   material_id: number;
   name: string;
-}
+};
 
 type Color = {
   id: number;
   package_id: number;
   color_id: number;
   name: string;
-}
+};
+
+type Place = {
+  id: number;
+  package_id: number;
+  place_id: number;
+  name: string;
+};
+
+type Occasion = {
+  id: number;
+  locale: string;
+  name: string;
+  created_at: string | null;
+  updated_at: string | null;
+  deleted_at: string | null;
+};
 
 type Package = {
   id: number;
@@ -114,12 +130,7 @@ type Package = {
     event_name: string;
   }[];
   colors: Color[];
-  places: {
-    id: number;
-    package_id: number;
-    place_id: number;
-    name: string;
-  }[];
+  places: Place[];
   materials: Material[];
 };
 
@@ -168,7 +179,7 @@ type Category = {
   deleted_at: string | null;
   title: string;
   description: string | null;
-  items?: Item[]
+  items?: Item[];
 };
 
 type Categories = {

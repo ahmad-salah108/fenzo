@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function ColorPicker({colors}: {colors: Color[]}) {
+export default function ColorPicker({colors, colorValue, setColorValue}: {colors: Color[], colorValue: number | undefined, setColorValue: React.Dispatch<React.SetStateAction<number | undefined>>}) {
   const [hex, setHex] = useState("#000");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -37,7 +37,7 @@ export default function ColorPicker({colors}: {colors: Color[]}) {
           sx={{ width: "100px", "& *": { fontSize: "0.8rem !important" } }}
         >
           <InputLabel>Color</InputLabel>
-          <Select label="Color">
+          <Select label="Color" value={colorValue} onChange={(e)=>setColorValue(+e.target.value)}>
             {colors?.map(e => (
               <MenuItem sx={{ fontSize: "0.8rem" }} value={e?.color_id}>
                 {e?.name}

@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   Grid,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -13,11 +14,13 @@ import React, { useEffect, useState } from "react";
 import Extras from "./components/Extras";
 import Services from "./components/Services";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import i18next, { t } from "i18next";
 import { PER_PAGE_3 } from "../../../constants/PerPage";
 import SkeletonDetails from "../../../components/SkeletonDetails";
+import { LoadingButton } from "@mui/lab";
+import { useUser } from "../../../context/UserContext";
 
 export default function PackageDetails() {
   const theme = useTheme();
@@ -27,10 +30,43 @@ export default function PackageDetails() {
   const [packageData, setPackageData] = useState<Package>({} as Package);
   const [extras, setExtras] = useState<Categories>({} as Categories);
   const [services, setServices] = useState<Categories>({} as Categories);
-  const [loading, setLoading] = useState<Boolean>(true)
+  const [loading, setLoading] = useState<Boolean>(true);
   const [pageExtras, setPageExtras] = useState<number>(1);
   const [pageServices, setPageServices] = useState<number>(1);
-  const [relatedPackages, setRelatedPackages] = useState<Packages>({} as Packages);
+  const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
+  const { user } = useUser();
+  const navigate = useNavigate();
+  const [relatedPackages, setRelatedPackages] = useState<Packages>(
+    {} as Packages
+  );
+
+  const handleOrderNow = () => {
+    if (!user?.token) {
+      navigate("/login");
+      return;
+    }
+
+    setLoadingOrder(true);
+
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/cart/add-cart`, {
+        package_id: packageId,
+      })
+      .then((res) => {
+        toast.success(t("selected_successfully"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        setLoadingOrder(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        setLoadingOrder(false);
+      });
+  };
 
   // GET PACKAGE DETAILS
   useEffect(() => {
@@ -38,87 +74,107 @@ export default function PackageDetails() {
 
     let apiCounter = 0;
 
-    axios.get(`${process.env.REACT_APP_API_URL}/package/show/${packageId}`)
-    .then(res => {
-      setPackageData(res?.data?.data)
-      apiCounter++;
-      if(apiCounter === 2) setLoading(false);
-    }).catch(err => {
-      toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
-        position: "bottom-left",
-        rtl: i18next.language === "ar",
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/package/show/${packageId}`)
+      .then((res) => {
+        setPackageData(res?.data?.data);
+        apiCounter++;
+        if (apiCounter === 2) setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        apiCounter++;
+        if (apiCounter === 2) setLoading(false);
       });
-      apiCounter++;
-      if(apiCounter === 2) setLoading(false);
-    })
 
-    axios.post(`${process.env.REACT_APP_API_URL}/package/index`, {
-      paginate: 20,
-      design_id: designId
-    }, {
-      params: {
-        page: 1
-      }
-    })
-    .then(res => {
-      setRelatedPackages(res?.data?.data)
-      apiCounter++;
-      if(apiCounter === 2) setLoading(false);
-    }).catch(err => {
-      toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
-        position: "bottom-left",
-        rtl: i18next.language === "ar",
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/package/index`,
+        {
+          paginate: 20,
+          design_id: designId,
+        },
+        {
+          params: {
+            page: 1,
+          },
+        }
+      )
+      .then((res) => {
+        setRelatedPackages(res?.data?.data);
+        apiCounter++;
+        if (apiCounter === 2) setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        apiCounter++;
+        if (apiCounter === 2) setLoading(false);
       });
-      apiCounter++;
-      if(apiCounter === 2) setLoading(false);
-    })
   }, []);
 
   // GET EXTRAS
-  useEffect(()=>{
-    axios.post(`${process.env.REACT_APP_API_URL}/category/get-category-extra`, {
-      paginate: lg ? 3 : md ? 2 : 1,
-    }, {
-      params: {
-        page: pageExtras
-      }
-    })
-    .then(res => {
-      setExtras(res?.data?.data)
-    }).catch(err => {
-      toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
-        position: "bottom-left",
-        rtl: i18next.language === "ar",
+  useEffect(() => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/category/get-category-extra`,
+        {
+          paginate: lg ? 3 : md ? 2 : 1,
+        },
+        {
+          params: {
+            page: pageExtras,
+          },
+        }
+      )
+      .then((res) => {
+        setExtras(res?.data?.data);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
       });
-    })
-  },[pageExtras, md, lg])
+  }, [pageExtras, md, lg]);
 
   // GET SERVICES
-  useEffect(()=>{
-    axios.post(`${process.env.REACT_APP_API_URL}/category/get-category-services`, {
-      paginate: lg ? 3 : md ? 2 : 1,
-    }, {
-      params: {
-        page: pageServices
-      }
-    })
-    .then(res => {
-      setServices(res?.data?.data)
-    }).catch(err => {
-      toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
-        position: "bottom-left",
-        rtl: i18next.language === "ar",
+  useEffect(() => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/category/get-category-services`,
+        {
+          paginate: lg ? 3 : md ? 2 : 1,
+        },
+        {
+          params: {
+            page: pageServices,
+          },
+        }
+      )
+      .then((res) => {
+        setServices(res?.data?.data);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
       });
-    })
-  },[pageServices, md, lg])
+  }, [pageServices, md, lg]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setPageExtras(1);
     setPageServices(1);
-  },[md, lg])
+  }, [md, lg]);
 
-  if(loading){
-    return <SkeletonDetails/>
+  if (loading) {
+    return <SkeletonDetails />;
   }
 
   return (
@@ -126,30 +182,54 @@ export default function PackageDetails() {
       <Box>
         <Grid container>
           <Grid item xs={12} lg={8}>
-            <PackageDetailsStart data={packageData}/>
+            <PackageDetailsStart data={packageData} />
           </Grid>
           <Grid item xs={12} lg={4}>
-            <PackageDetailsEnd relatedPackages={relatedPackages}/>
+            <PackageDetailsEnd relatedPackages={relatedPackages} />
           </Grid>
         </Grid>
-        <Extras extras={extras} pageExtras={pageExtras} setPageExtras={setPageExtras}/>
-        <Services services={services} pageServices={pageServices} setPageServices={setPageServices}/>
-        <Button
+        {extras?.data?.length > 0 ? (
+          <Extras
+            extras={extras}
+            pageExtras={pageExtras}
+            setPageExtras={setPageExtras}
+          />
+        ) : (
+          <Typography
+            sx={{ color: "#aaa", fontSize: "1.4rem", marginBottom: "1rem" }}
+          >
+            There are no extras
+          </Typography>
+        )}
+        {services?.data?.length > 0 ? (
+          <Services
+            services={services}
+            pageServices={pageServices}
+            setPageServices={setPageServices}
+          />
+        ) : (
+          <Typography sx={{ color: "#aaa", fontSize: "1.4rem" }}>
+            There are no services
+          </Typography>
+        )}
+        <LoadingButton
           variant="outlined"
+          loading={loadingOrder}
           sx={{
             color: "rgba(89, 89, 89, 1)",
             borderColor: "rgba(89, 89, 89, 1)",
-            borderRadius: '100vh',
+            borderRadius: "100vh",
             width: "13rem",
-            paddingTop: '0.7rem',
-            paddingBottom: '0.7rem',
-            marginInlineStart: 'auto',
-            display: 'block',
-            marginTop: '70px'
+            paddingTop: "0.7rem",
+            paddingBottom: "0.7rem",
+            marginInlineStart: "auto",
+            display: "block",
+            marginTop: "70px",
           }}
+          onClick={handleOrderNow}
         >
           Order now
-        </Button>
+        </LoadingButton>
       </Box>
       <Footer />
     </Container>

@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, Stack, Typography } from "@mui/material";
 import React from "react";
 
-export default function Material({materials}: {materials: Material[]}) {
+export default function Material({materials, materialValue, setMaterialValue}: {materials: Material[], materialValue: number | undefined, setMaterialValue: React.Dispatch<React.SetStateAction<number | undefined>>}) {
   return (
     <Box>
       <Typography fontSize={"0.8rem"} mb={1}>Material</Typography>
@@ -11,6 +11,8 @@ export default function Material({materials}: {materials: Material[]}) {
           <InputLabel>Material</InputLabel>
           <Select
             label="Material"
+            value={materialValue}
+            onChange={(e)=>setMaterialValue(+e.target.value)}
           >
             {materials?.map(e => (
               <MenuItem sx={{fontSize: '0.8rem'}} value={e?.material_id}>{e?.name}</MenuItem>

@@ -8,14 +8,37 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OrderForm from "./components/OrderForm";
 import ExtrasAndFiles from "./components/ExtrasAndFiles";
 import ServicesAndCheckout from "./components/ServicesAndCheckout";
 import Footer from "../../components/Footer";
-import { t } from "i18next";
+import i18next, { t } from "i18next";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+export type OrderFieldsData = {
+  colorFirst: Color[],
+  colorSecond: Color[],
+  places: Place[],
+  occasion: Occasion[]
+}
 
 export default function Cart() {
+  const [fieldsData, setFieldsData] = useState<OrderFieldsData>({} as OrderFieldsData)
+
+  useEffect(()=>{
+    axios.get(`${process.env.REACT_APP_API_URL}/order/get-data-order`)
+    .then(res => {
+      setFieldsData(res?.data?.data)
+    }).catch(err => {
+      toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+        position: "bottom-left",
+        rtl: i18next.language === "ar",
+      });
+    })
+  },[])
+
   return (
     <Container maxWidth="lg" sx={{ paddingTop: "2rem", paddingBottom: "2rem" }}>
       <Box sx={{ width: "100%" }}>
@@ -26,7 +49,7 @@ export default function Cart() {
           Information
         </Typography>
         <Box sx={{ "& *": { fontSize: "0.77rem !important" }, marginTop: '2rem' }}>
-          <OrderForm/>
+          <OrderForm fieldsData={fieldsData}/>
           <ExtrasAndFiles/>
           <ServicesAndCheckout/>
           <Button

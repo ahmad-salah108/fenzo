@@ -18,7 +18,7 @@ export default function OrderColorPicker({colors, title}: {colors: Color[], titl
 
   return (
     <Box>
-      <Typography fontSize={"0.8rem"} mb={1}>
+      <Typography fontSize={"0.8rem"} mb={2}>
         {title}
       </Typography>
       <Stack direction={"row"} sx={{ gap: "1rem", alignItems: "center" }}>

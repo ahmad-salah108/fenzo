@@ -64,10 +64,12 @@
   "last_month": "Last Month",
   "no_designs": "There is no designs",
   "no_packages": "There is no packages",
-  "no_categories": "There is no categories",
+  "no_categories": "There are no categories",
   "design_details": "Design Details",
   "package": "Package",
   "categories": "Categories",
   "upload_photo": "Upload Photo",
-  "profile_picture": "Profile Picture"
+  "profile_picture": "Profile Picture",
+  "selected_successfully": "Package Selected Successfully",
+  "added_successfully": "Added Successfully"
 }

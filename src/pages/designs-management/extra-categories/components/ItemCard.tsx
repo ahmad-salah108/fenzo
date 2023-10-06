@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, Paper, Stack, Typography } from "@mui/material";
-import i18next from "i18next";
-import React, { useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import i18next, { t } from "i18next";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ButtonLink from "../../../../components/ButtonLink";
 import AddIcon from "@mui/icons-material/Add";
 import { Controller, useFormContext } from "react-hook-form";
@@ -11,6 +11,10 @@ import Material from "./Material";
 import ColorPicker from "./ColorPicker";
 import Chairs from "./Chairs";
 import { Sell } from "@mui/icons-material";
+import { useUser } from "../../../../context/UserContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { LoadingButton } from "@mui/lab";
 
 type ItemCardProps = {
   index: number;
@@ -19,6 +23,41 @@ type ItemCardProps = {
 
 export default function ItemCard(props: ItemCardProps) {
   const path = useLocation().pathname;
+  const navigate = useNavigate();
+  const { user } = useUser();
+  const [loading, setLoading] = useState<boolean>(false)
+  const [colorValue, setColorValue] = useState<number>();
+  const [materialValue, setMaterialValue] = useState<number>();
+
+  const handleAddToCart = () => {
+    if (!user?.token) {
+      navigate("/login");
+      return;
+    }
+
+    setLoading(true);
+
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/cart/add-cart`, {
+        item_id: props.data?.id,
+        ... colorValue && {color_id: colorValue},
+        ... materialValue && {material_id: materialValue}
+      })
+      .then((res) => {
+        toast.success(t("added_successfully"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message ?? t("smth_went_wrong"), {
+          position: "bottom-left",
+          rtl: i18next.language === "ar",
+        });
+        setLoading(false);
+      });
+  }
 
   return (
     <Paper
@@ -64,8 +103,8 @@ export default function ItemCard(props: ItemCardProps) {
         {props.data?.description}
       </Typography>
       <Stack direction={"row"} sx={{ marginInline: "1rem", gap: "10px" }}>
-        <Material materials={props.data?.materials}/>
-        <ColorPicker colors={props.data?.colors}/>
+        <Material materials={props.data?.materials} materialValue={materialValue} setMaterialValue={setMaterialValue}/>
+        <ColorPicker colors={props.data?.colors} colorValue={colorValue} setColorValue={setColorValue}/>
       </Stack>
       <Stack
         direction={"row"}
@@ -80,7 +119,8 @@ export default function ItemCard(props: ItemCardProps) {
           />
         </Typography>
       </Stack>
-      <Button
+      <LoadingButton
+        loading={loading}
         variant="outlined"
         sx={{
           borderRadius: "100vh",
@@ -93,9 +133,10 @@ export default function ItemCard(props: ItemCardProps) {
           margin: '1.5rem auto 1.5rem',
           display: 'block'
         }}
+        onClick={handleAddToCart}
       >
         Add to cart
-      </Button>
+      </LoadingButton>
     </Paper>
   );
 }
