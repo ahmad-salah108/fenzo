@@ -55,7 +55,6 @@ export default function SignUp() {
                   objectFit: "cover",
                   objectPosition: "center",
                   width: "30rem",
-                  height: "147vh",
                 }}
               />
             )}
